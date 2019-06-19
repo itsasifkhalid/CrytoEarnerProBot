@@ -31,5 +31,5 @@ export default async (ctx: api.ContextMessageUpdate, next: Function) => {
         }
     }
 
-    await next()
+    next()
 }

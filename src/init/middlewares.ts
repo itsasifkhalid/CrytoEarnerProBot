@@ -15,7 +15,7 @@ export default class Middlewares {
             Logger.trace('>>> Прослойки инициализированы')
         } catch {
             Logger.trace('XXX Произошла ошибка при инициализации прослоек!')
-            process.exit(1);        // выход из приложения
+            process.exit(1)         // выход из приложения
         }
     }
 }

@@ -13,3 +13,4 @@ middlewares_1.default.init(bot); // инициализируем прослой�
 scenes_1.default.init(bot); // инициализируем сцены
 handlers_1.default.init(bot); // инициализируем обработчики
 db_1.default.connect(); // подключаемся к БД
+//# sourceMappingURL=index.js.map

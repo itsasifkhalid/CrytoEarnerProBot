@@ -21,3 +21,4 @@ exports.UserSchema = new mongoose_1.Schema({
 }, { collection: 'users' });
 exports.UserSchema.plugin(mongoose_unique_validator_1.default); // подключаем валидатор уникальности
 exports.default = mongoose_1.default.model('User', exports.UserSchema);
+//# sourceMappingURL=user.js.map

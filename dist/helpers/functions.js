@@ -195,3 +195,4 @@ function dismissAdmin(chatId) {
     });
 }
 exports.dismissAdmin = dismissAdmin;
+//# sourceMappingURL=functions.js.map

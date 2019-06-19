@@ -59,3 +59,4 @@ var AdminMessage = /** @class */ (function () {
     return AdminMessage;
 }());
 exports.default = AdminMessage;
+//# sourceMappingURL=admin.js.map

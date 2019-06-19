@@ -77,10 +77,9 @@ exports.default = (function (ctx, next) { return __awaiter(_this, void 0, void 0
             case 3:
                 // Сохраняем его
                 _a.sent();
-                return [4 /*yield*/, next()];
-            case 4:
-                _a.sent();
+                next();
                 return [2 /*return*/];
         }
     });
 }); });
+//# sourceMappingURL=addUsers.js.map

@@ -81,3 +81,4 @@ var AdminsListMessage = /** @class */ (function () {
     return AdminsListMessage;
 }());
 exports.default = AdminsListMessage;
+//# sourceMappingURL=adminsList.js.map

@@ -17,7 +17,7 @@ export default class Scenes {
             Logger.trace('>>> Сцены зарегистрированы')
         } catch {
             Logger.trace('XXX Произошла ошибка при регистрации сцен!')
-            process.exit(1);            // выход из приложения
+            process.exit(1)            // выход из приложения
         }
     }
 }

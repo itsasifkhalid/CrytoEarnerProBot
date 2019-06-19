@@ -14,7 +14,7 @@ export default class Handlers {
             Logger.trace('>>> Обработчики инициализированы')
         } catch {
             Logger.trace('XXX Произошла ошибка при инициализации обработчиков!')
-            process.exit(1);        // выход из приложения
+            process.exit(1)        // выход из приложения
         }
     }
 }

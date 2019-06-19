@@ -77,3 +77,4 @@ var CallbackQuery = /** @class */ (function () {
     return CallbackQuery;
 }());
 exports.default = CallbackQuery;
+//# sourceMappingURL=callbackQuery.js.map
