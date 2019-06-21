@@ -4,7 +4,7 @@ import Handlers from './init/handlers'
 import Middlewares from './init/middlewares'
 import Scenes from './init/scenes'
 
-const bot = Bot.configure()  // конфигурируем бот
+const bot = Bot.configure() // конфигурируем бот
 
 Middlewares.init(bot)       // инициализируем прослойки
 Scenes.init(bot)            // инициализируем сцены

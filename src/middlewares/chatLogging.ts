@@ -20,13 +20,16 @@ export default async (ctx: api.ContextMessageUpdate, next: Function) => {
     if (ctx.updateType !== 'callback_query') {
         if (username !== undefined) {
             Logger.notify(`Сообщение от ${name} (@${username}): "${ctx.message.text}"`)
-        } else {
+        }
+        else {
             Logger.notify(`Сообщение от ${name}: "${ctx.message.text}"`)
         }
-    } else {
+    }
+    else {
         if (username !== undefined) {
             Logger.notify(`${name} (@${username}) выбрал(а): "${ctx.callbackQuery.data}"`)
-        } else {
+        }
+        else {
             Logger.notify(`${name} выбрал(а): "${ctx.callbackQuery.data}"`)
         }
     }

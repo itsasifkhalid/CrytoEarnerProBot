@@ -39,65 +39,91 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var logger_1 = __importDefault(require("../init/logger"));
-var functions_1 = require("../helpers/functions");
 var admin_1 = __importDefault(require("../controllers/admin"));
-// Немного модулей без типов ES5
+var functions_1 = require("../helpers/functions");
+var logger_1 = __importDefault(require("../init/logger"));
+var Scene = require('telegraf/scenes/base');
 var Markup = require('telegraf/markup');
-var WizardScene = require('telegraf/scenes/wizard');
 /**
- * Сцена добавления админов
+ * Сцена рассылки
  */
-exports.default = new WizardScene('addAdmins', 
-// Запрашиваем перечень chatId
-function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+var addAdmins = new Scene('addAdmins');
+addAdmins.command('start', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, ctx.scene.leave()];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, admin_1.default.send(ctx)];
+            case 2:
+                _a.sent();
+                ctx.session = {};
+                return [2 /*return*/];
+        }
+    });
+}); });
+// Точка входа в сцену
+addAdmins.enter(function (ctx) { return __awaiter(_this, void 0, void 0, function () {
     var keyboard;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                keyboard = Markup.keyboard([
-                    Markup.button('Назад')
-                ]).oneTime().resize().extra();
+                keyboard = Markup.inlineKeyboard([
+                    Markup.callbackButton('Назад', 'back')
+                ]).extra();
                 return [4 /*yield*/, ctx.replyWithMarkdown('Перешлите мне сообщение от будущего админа ⏩\n*Он должен быть пользователем бота!*', keyboard)];
             case 1:
                 _a.sent();
-                return [2 /*return*/, ctx.wizard.next()];
+                return [2 /*return*/];
         }
     });
-}); }, 
-// Финальное действие
-function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+}); });
+addAdmins.on('message', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
     var adminId, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!(ctx.message.text === 'Назад')) return [3 /*break*/, 2];
-                return [4 /*yield*/, admin_1.default.send(ctx)];
-            case 1:
-                _a.sent();
-                return [2 /*return*/, ctx.scene.leave()];
-            case 2:
-                _a.trys.push([2, 5, , 7]);
+                _a.trys.push([0, 3, , 5]);
                 adminId = ctx.message.forward_from.id;
-                console.log(ctx);
-                console.log(adminId);
                 return [4 /*yield*/, functions_1.addAdmin(adminId)]; // добавляем админов
-            case 3:
+            case 1:
                 _a.sent(); // добавляем админов
                 return [4 /*yield*/, ctx.reply('Операция прошла успешно! 🎉', admin_1.default.keyboard)];
-            case 4:
+            case 2:
                 _a.sent();
                 logger_1.default.notify("\u041D\u043E\u0432\u044B\u0439 \u0430\u0434\u043C\u0438\u043D(" + adminId + ") \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D! \uD83C\uDF89 \u0410\u0434\u043C\u0438\u043D: @" + ctx.from.username);
-                return [3 /*break*/, 7];
-            case 5:
+                return [3 /*break*/, 5];
+            case 3:
                 err_1 = _a.sent();
                 return [4 /*yield*/, ctx.reply('Не удалось добавить новых админов, приносим извинения.\nВозможно, Вы ввели некорректные данные', admin_1.default.keyboard)];
-            case 6:
+            case 4:
                 _a.sent();
                 logger_1.default.error(err_1.message);
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/, ctx.scene.leave()];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/, ctx.scene.leave()];
         }
     });
 }); });
+addAdmins.on('callback_query', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = ctx.callbackQuery.data;
+                switch (_a) {
+                    case 'back': return [3 /*break*/, 1];
+                }
+                return [3 /*break*/, 4];
+            case 1: return [4 /*yield*/, ctx.scene.leave()];
+            case 2:
+                _b.sent();
+                return [4 /*yield*/, admin_1.default.send(ctx)];
+            case 3:
+                _b.sent();
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.default = addAdmins;
 //# sourceMappingURL=addAdmins.js.map

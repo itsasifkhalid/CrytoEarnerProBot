@@ -23,7 +23,7 @@ export default class Logger {
         this.logger.log('fatal', data)
     }
 
-    public static notify(data: any): void { 
+    public static notify(data: any): void {
         this.logger.info(data)
     }
 }

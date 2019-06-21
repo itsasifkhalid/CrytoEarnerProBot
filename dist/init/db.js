@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -6,12 +9,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var path = __importStar(require("path"));
 var mongoose_1 = __importDefault(require("mongoose"));
+var path = __importStar(require("path"));
 var logger_js_1 = __importDefault(require("./logger.js"));
 var config = require(path.join(process.cwd(), 'config', 'config.json'));
 var DB = /** @class */ (function () {

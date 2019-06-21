@@ -1,9 +1,9 @@
 import * as api from 'telegraf'
-import { isAdmin } from '../helpers/functions'
 import AdminMessage from '../controllers/admin'
-import StatsMessage from '../controllers/stats'
-import AdminsListMessage from '../controllers/adminsList'
 import AdminsHelpMessage from '../controllers/adminHelp'
+import AdminsListMessage from '../controllers/adminsList'
+import StatsMessage from '../controllers/stats'
+import { isAdmin } from '../helpers/functions'
 
 export default class Admin {
     public static init(bot: api.Telegraf<api.ContextMessageUpdate>) {
@@ -28,8 +28,8 @@ export default class Admin {
             }
         })
 
-        // Обработчик для "Добавить админа(ов)"
-        bot.hears('Добавить админа(ов) 👔', async (ctx: any) => {
+        // Обработчик для "Добавить админа"
+        bot.hears('Добавить админа 👔', async (ctx: any) => {
             if (await isAdmin(ctx.from.id)) {
                 await ctx.scene.enter('addAdmins')
             }

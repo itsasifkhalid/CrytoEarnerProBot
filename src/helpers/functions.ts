@@ -1,6 +1,6 @@
 import * as api from 'telegraf'
-import User, { IUser } from '../models/user'
 import Logger from '../init/logger'
+import User, { IUser } from '../models/user'
 
 /**
  * Получает список пользователей
@@ -26,12 +26,12 @@ export async function getAdmins(): Promise<IUser[]> {
  * Проверяет является ли пользователь админом
  * @async
  * @function isAdmin
- * @param chatId 
+ * @param chatId
  * @returns { Promise<Boolean> }
  */
 export async function isAdmin(chatId: number): Promise<Boolean> {
     let res = await User.find({ chatId: chatId, isAdmin: true })
-    return res.length > 0 ? true : false
+    return res.length > 0
 }
 
 /**
@@ -47,7 +47,7 @@ export async function sendGlobal(ctx: api.ContextMessageUpdate): Promise<void> {
     for (const user of users) {
         if (user.chatId != ctx.from.id) {
             try {
-                ctx.telegram.sendCopy(user.chatId, ctx.message)
+                await ctx.telegram.sendCopy(user.chatId, ctx.message)
             }
             catch (err) {
                 throw new Error(`Не удалось выполнить рассылку: ${err.message}`)

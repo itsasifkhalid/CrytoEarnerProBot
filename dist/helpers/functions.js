@@ -38,8 +38,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var user_1 = __importDefault(require("../models/user"));
 var logger_1 = __importDefault(require("../init/logger"));
+var user_1 = __importDefault(require("../models/user"));
 /**
  * Получает список пользователей
  * @async
@@ -89,7 +89,7 @@ function isAdmin(chatId) {
                 case 0: return [4 /*yield*/, user_1.default.find({ chatId: chatId, isAdmin: true })];
                 case 1:
                     res = _a.sent();
-                    return [2 /*return*/, res.length > 0 ? true : false];
+                    return [2 /*return*/, res.length > 0];
             }
         });
     });
@@ -104,24 +104,32 @@ exports.isAdmin = isAdmin;
  */
 function sendGlobal(ctx) {
     return __awaiter(this, void 0, void 0, function () {
-        var users, _i, users_1, user;
+        var users, _i, users_1, user, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, user_1.default.find({})];
                 case 1:
                     users = _a.sent();
-                    for (_i = 0, users_1 = users; _i < users_1.length; _i++) {
-                        user = users_1[_i];
-                        if (user.chatId != ctx.from.id) {
-                            try {
-                                ctx.telegram.sendCopy(user.chatId, ctx.message);
-                            }
-                            catch (err) {
-                                throw new Error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C \u0440\u0430\u0441\u0441\u044B\u043B\u043A\u0443: " + err.message);
-                            }
-                        }
-                    }
-                    return [2 /*return*/];
+                    _i = 0, users_1 = users;
+                    _a.label = 2;
+                case 2:
+                    if (!(_i < users_1.length)) return [3 /*break*/, 7];
+                    user = users_1[_i];
+                    if (!(user.chatId != ctx.from.id)) return [3 /*break*/, 6];
+                    _a.label = 3;
+                case 3:
+                    _a.trys.push([3, 5, , 6]);
+                    return [4 /*yield*/, ctx.telegram.sendCopy(user.chatId, ctx.message)];
+                case 4:
+                    _a.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    err_1 = _a.sent();
+                    throw new Error("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C \u0440\u0430\u0441\u0441\u044B\u043B\u043A\u0443: " + err_1.message);
+                case 6:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 7: return [2 /*return*/];
             }
         });
     });
@@ -136,7 +144,7 @@ exports.sendGlobal = sendGlobal;
  */
 function addAdmin(chatId) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, err_1;
+        var user, err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -159,8 +167,8 @@ function addAdmin(chatId) {
                     _a.sent();
                     return [3 /*break*/, 5];
                 case 4:
-                    err_1 = _a.sent();
-                    throw new Error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0438 \u0430\u0434\u043C\u0438\u043D\u0430: " + err_1.message);
+                    err_2 = _a.sent();
+                    throw new Error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0438 \u0430\u0434\u043C\u0438\u043D\u0430: " + err_2.message);
                 case 5: return [2 /*return*/];
             }
         });
@@ -176,7 +184,7 @@ exports.addAdmin = addAdmin;
  */
 function dismissAdmin(chatId) {
     return __awaiter(this, void 0, void 0, function () {
-        var err_2;
+        var err_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -187,8 +195,8 @@ function dismissAdmin(chatId) {
                     logger_1.default.notify('Админ успешно отстранён!');
                     return [3 /*break*/, 3];
                 case 2:
-                    err_2 = _a.sent();
-                    throw new Error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u0441\u0442\u0440\u0430\u043D\u0435\u043D\u0438\u0438 \u0430\u0434\u043C\u0438\u043D\u0430: " + err_2.message);
+                    err_3 = _a.sent();
+                    throw new Error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u0441\u0442\u0440\u0430\u043D\u0435\u043D\u0438\u0438 \u0430\u0434\u043C\u0438\u043D\u0430: " + err_3.message);
                 case 3: return [2 /*return*/];
             }
         });

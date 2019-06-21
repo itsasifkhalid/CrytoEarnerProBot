@@ -1,6 +1,6 @@
 import * as api from 'telegraf'
-import gsend from '../scenes/gsend'
 import addAdmins from '../scenes/addAdmins'
+import gsend from '../scenes/gsend'
 import Logger from './logger'
 
 const Stage = require('telegraf/stage')
@@ -13,11 +13,12 @@ export default class Scenes {
             stage.register(addAdmins)   // регистрируем сцену добавления админов
 
             bot.use(stage.middleware())
-            
+
             Logger.trace('>>> Сцены зарегистрированы')
-        } catch {
+        }
+        catch {
             Logger.trace('XXX Произошла ошибка при регистрации сцен!')
-            process.exit(1)            // выход из приложения
+            process.exit(1)             // выход из приложения
         }
     }
 }

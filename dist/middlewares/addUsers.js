@@ -39,8 +39,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var user_1 = __importDefault(require("../models/user"));
 var logger_1 = __importDefault(require("../init/logger"));
+var user_1 = __importDefault(require("../models/user"));
 /**
  * Прослойка для добавления новых пользователей
  * @async

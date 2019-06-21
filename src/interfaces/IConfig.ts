@@ -2,7 +2,7 @@ export default interface IConfig {
     dev: {
         token: string
         dbUrl: string
-        port : number
+        port: number
     },
     prod: {
         token: string

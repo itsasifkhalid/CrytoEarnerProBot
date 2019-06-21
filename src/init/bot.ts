@@ -1,11 +1,11 @@
 import * as path from 'path'
 import Telegraf from 'telegraf'
-import Logger from './logger'
 import IConfig from '../interfaces/IConfig'
+import Logger from './logger'
 
 const config: IConfig = require(path.join(process.cwd(), 'config', 'config.json'))
 
-export default class Bot { 
+export default class Bot {
     private static token: string
 
     public static configure() {

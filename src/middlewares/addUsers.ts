@@ -1,6 +1,6 @@
 import * as api from 'telegraf'
-import User from '../models/user'
 import Logger from '../init/logger'
+import User from '../models/user'
 
 /**
  * Прослойка для добавления новых пользователей
