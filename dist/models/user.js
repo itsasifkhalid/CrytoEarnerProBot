@@ -18,7 +18,7 @@ exports.UserSchema = new mongoose_1.Schema({
     username: { type: String, unique: true },
     name: { type: String },
     isAdmin: { type: Boolean }
-}, { collection: 'users' });
+}, { collection: 'investors' });
 exports.UserSchema.plugin(mongoose_unique_validator_1.default); // подключаем валидатор уникальности
 exports.default = mongoose_1.default.model('User', exports.UserSchema);
 //# sourceMappingURL=user.js.map

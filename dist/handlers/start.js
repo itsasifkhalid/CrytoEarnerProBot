@@ -42,7 +42,7 @@ var Start = /** @class */ (function () {
         var _this = this;
         bot.start(function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, ctx.reply('Heyyyyy')];
+                case 0: return [4 /*yield*/, ctx.reply('Heyyy')];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         }); }); });

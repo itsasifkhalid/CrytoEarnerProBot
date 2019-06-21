@@ -2,7 +2,7 @@ import * as api from 'telegraf'
 import Logger from '../init/logger'
 import User, { IUser } from '../models/user'
 
-const { floor, random } = Math;
+const { floor, random } = Math
 
 /**
  * Получает список пользователей
@@ -100,10 +100,10 @@ export async function dismissAdmin(chatId: number): Promise<void> {
 }
 
 export function randomString(size: number): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let str = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let str = ''
     for (let i = 0; i < size; i++) {
-        str += chars.charAt(floor(random() * chars.length));
+        str += chars.charAt(floor(random() * chars.length))
     }
-    return str;
+    return str
 }
