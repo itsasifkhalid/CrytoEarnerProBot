@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger_1 = __importDefault(require("../init/logger"));
 var user_1 = __importDefault(require("../models/user"));
+var floor = Math.floor, random = Math.random;
 /**
  * Получает список пользователей
  * @async
@@ -203,4 +204,13 @@ function dismissAdmin(chatId) {
     });
 }
 exports.dismissAdmin = dismissAdmin;
+function randomString(size) {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var str = '';
+    for (var i = 0; i < size; i++) {
+        str += chars.charAt(floor(random() * chars.length));
+    }
+    return str;
+}
+exports.randomString = randomString;
 //# sourceMappingURL=functions.js.map

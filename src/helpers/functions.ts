@@ -2,6 +2,8 @@ import * as api from 'telegraf'
 import Logger from '../init/logger'
 import User, { IUser } from '../models/user'
 
+const { floor, random } = Math;
+
 /**
  * Получает список пользователей
  * @async
@@ -95,4 +97,13 @@ export async function dismissAdmin(chatId: number): Promise<void> {
     catch (err) {
         throw new Error(`Ошибка при отстранении админа: ${err.message}`)
     }
+}
+
+export function randomString(size: number): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let str = '';
+    for (let i = 0; i < size; i++) {
+        str += chars.charAt(floor(random() * chars.length));
+    }
+    return str;
 }
