@@ -34,17 +34,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var logger_1 = __importDefault(require("../init/logger"));
+var investor_1 = __importStar(require("../models/investor"));
+var expectedInvestment_1 = __importDefault(require("../models/expectedInvestment"));
 var functions_1 = require("../helpers/functions");
 var InvestMessage = /** @class */ (function () {
     function InvestMessage() {
     }
     InvestMessage.send = function (ctx) {
         return __awaiter(this, void 0, void 0, function () {
-            var paymendId;
+            var username, fullName, paymendId;
             return __generator(this, function (_a) {
+                username = ctx.from.username;
+                fullName = ctx.from.first_name;
+                // Составляем имя в зависимости от наличия фамилии
+                if (ctx.from.last_name !== undefined) {
+                    fullName = ctx.from.first_name + " " + ctx.from.last_name;
+                }
+                addInvestor(username, fullName);
                 paymendId = functions_1.randomString(24);
-                console.log(paymendId);
+                addInvestment(paymendId, username);
                 return [2 /*return*/];
             });
         });
@@ -52,4 +72,54 @@ var InvestMessage = /** @class */ (function () {
     return InvestMessage;
 }());
 exports.default = InvestMessage;
+function addInvestor(username, fullName) {
+    return __awaiter(this, void 0, void 0, function () {
+        var status, balance, investor;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    status = investor_1.investorStatus.ACTIVE;
+                    balance = 0;
+                    investor = new investor_1.default({
+                        username: username,
+                        fullName: fullName,
+                        status: status,
+                        balance: balance
+                    });
+                    // Сохраняем его
+                    return [4 /*yield*/, investor.save(function (err) {
+                            if (!err) {
+                                logger_1.default.notify("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u043D\u043E\u0432\u044B\u0439 \u0438\u043D\u0432\u0435\u0441\u0442\u043E\u0440: @" + username + "!");
+                            }
+                        })];
+                case 1:
+                    // Сохраняем его
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function addInvestment(paymendId, username) {
+    return __awaiter(this, void 0, void 0, function () {
+        var expectedInvestment;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    expectedInvestment = new expectedInvestment_1.default({
+                        id: paymendId,
+                        username: username
+                    });
+                    return [4 /*yield*/, expectedInvestment.save(function (err) {
+                            if (!err) {
+                                logger_1.default.notify("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430 \u043D\u043E\u0432\u0430\u044F \u0438\u043D\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u044F: " + paymendId + " \u0434\u043B\u044F @" + username + "!");
+                            }
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 //# sourceMappingURL=userInvest.js.map

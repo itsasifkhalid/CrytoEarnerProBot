@@ -1,19 +1,22 @@
 import mongoose, { Document, Schema } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
+export type investorState = 0 | 1
+export type investmentState = 0 | 1 | 2 | 3
+
 export enum investorStatus { ACTIVE, BLOCKED }
 export enum investmentStatus { ACTIVE, CLOSED, CANCELED, WAITING }
 
 export interface IInvestor extends Document {
 	username: string,
 	fullName?: string,
-	status: number,
+	status: investorState,
 	balance?: number,
 	investments?: [{
 		date: Date,
 		expires: Date,
 		sum: number,
-		status: number,
+		status: investmentState,
 		node: string
 	}]
 }
@@ -31,7 +34,7 @@ export const InvestorSchema: Schema = new Schema({
 		status: Number,
 		node: String
 	}]
-})
+}, { collection: 'investors' })
 
 InvestorSchema.plugin(uniqueValidator)  // подключаем валидатор уникальности
 
