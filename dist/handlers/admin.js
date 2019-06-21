@@ -41,7 +41,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var admin_1 = __importDefault(require("../controllers/admin"));
 var adminHelp_1 = __importDefault(require("../controllers/adminHelp"));
 var adminsList_1 = __importDefault(require("../controllers/adminsList"));
-var stats_1 = __importDefault(require("../controllers/stats"));
+var adminStats_1 = __importDefault(require("../controllers/adminStats"));
 var functions_1 = require("../helpers/functions");
 var Admin = /** @class */ (function () {
     function Admin() {
@@ -85,7 +85,7 @@ var Admin = /** @class */ (function () {
                     case 0: return [4 /*yield*/, functions_1.isAdmin(ctx.from.id)];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 3];
-                        return [4 /*yield*/, stats_1.default.send(ctx)];
+                        return [4 /*yield*/, adminStats_1.default.send(ctx)];
                     case 2:
                         _a.sent();
                         _a.label = 3;

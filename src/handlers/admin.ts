@@ -2,7 +2,7 @@ import * as api from 'telegraf'
 import AdminMessage from '../controllers/admin'
 import AdminsHelpMessage from '../controllers/adminHelp'
 import AdminsListMessage from '../controllers/adminsList'
-import StatsMessage from '../controllers/stats'
+import StatsMessage from '../controllers/adminStats'
 import { isAdmin } from '../helpers/functions'
 
 export default class Admin {

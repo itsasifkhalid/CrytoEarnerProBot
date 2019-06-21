@@ -14,7 +14,7 @@ export const UserSchema: Schema = new Schema({
     username: { type: String, unique: true },
     name: { type: String },
     isAdmin: { type: Boolean }
-}, { collection: 'users' })
+}, { collection: 'investors' })
 
 UserSchema.plugin(uniqueValidator)  // подключаем валидатор уникальности
 

@@ -34,28 +34,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var userInvest_1 = __importDefault(require("../controllers/userInvest"));
-var User = /** @class */ (function () {
-    function User() {
+var functions_1 = require("../helpers/functions");
+var InvestMessage = /** @class */ (function () {
+    function InvestMessage() {
     }
-    User.init = function (bot) {
-        var _this = this;
-        bot.hears('Инвестировать', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+    InvestMessage.send = function (ctx) {
+        return __awaiter(this, void 0, void 0, function () {
+            var paymendId;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, userInvest_1.default.send(ctx)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                paymendId = functions_1.randomString(24);
+                console.log(paymendId);
+                return [2 /*return*/];
             });
-        }); });
+        });
     };
-    return User;
+    return InvestMessage;
 }());
-exports.default = User;
-//# sourceMappingURL=user.js.map
+exports.default = InvestMessage;
+//# sourceMappingURL=userInvest.js.map
