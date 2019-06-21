@@ -34,18 +34,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : {"default": mod};
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var menu_1 = __importDefault(require("../controllers/menu"));
 var Start = /** @class */ (function () {
     function Start() {
     }
     Start.init = function (bot) {
         var _this = this;
-        bot.start(function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, ctx.reply('Heyyy')];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); }); });
+        bot.start(function (ctx) {
+            return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            return [4 /*yield*/, menu_1.default.send(ctx)];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        });
     };
     return Start;
 }());
