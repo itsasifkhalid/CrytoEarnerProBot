@@ -1,6 +1,6 @@
 .vscode/
 config/config.json
 logfile.log
+dist/
 node_modules/
 TODO
-*.js.map
