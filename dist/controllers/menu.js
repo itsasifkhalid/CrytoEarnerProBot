@@ -34,28 +34,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var menu_1 = __importDefault(require("../controllers/menu"));
-var Start = /** @class */ (function () {
-    function Start() {
+var Markup = require('telegraf/markup');
+var MenuMessage = /** @class */ (function () {
+    function MenuMessage() {
     }
-    Start.init = function (bot) {
-        var _this = this;
-        bot.start(function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+    MenuMessage.send = function (ctx) {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, menu_1.default.send(ctx)];
+                    case 0: return [4 /*yield*/, ctx.replyWithChatAction('typing')];
                     case 1:
+                        _a.sent();
+                        return [4 /*yield*/, ctx.reply('Добро пожаловать! ✌️\nС помощью этого бота Вы сможете делать быстрые инвестиции', this.keyboard)];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
-        }); });
+        });
     };
-    return Start;
+    MenuMessage.keyboard = Markup.keyboard([
+        ['💼 Инвестировать', '💼 Условия'],
+        ['💼 Баланс', '💼 Контакты']
+    ]).oneTime().resize().extra();
+    return MenuMessage;
 }());
-exports.default = Start;
-//# sourceMappingURL=start.js.map
+exports.default = MenuMessage;
+//# sourceMappingURL=menu.js.map
