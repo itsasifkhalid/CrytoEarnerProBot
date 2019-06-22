@@ -10,17 +10,19 @@ export default class InvestMessage {
 		let fullName = ctx.from.first_name;
 
 		// Составляем имя в зависимости от наличия фамилии
-	    if (ctx.from.last_name !== undefined) {
-	        fullName = `${ctx.from.first_name} ${ctx.from.last_name}`
-	    }
+		if (ctx.from.last_name !== undefined) {
+			fullName = `${ctx.from.first_name} ${ctx.from.last_name}`
+		}
 
 		addInvestor(username, fullName);
 
 		const paymendId: string = randomString(24);
-	
+
 		addInvestment(paymendId, username);
 
 		// Вывод заготовленного текста с инфой куда присылать деньги + уникальный идентификатор платежа paymentId
+
+		await ctx.reply('Функция в разработке')
 	}
 }
 
