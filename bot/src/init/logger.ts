@@ -1,7 +1,5 @@
-import * as path from 'path'
-
 export default class Logger {
-    public static logger = require('simple-node-logger').createSimpleLogger(path.join(process.cwd(), 'logs', 'logfile.log'))
+    public static logger = require('simple-node-logger').createSimpleLogger('bot/logs/logfile.log')
 
     public static trace(data: any): void {
         this.logger.log('trace', data)

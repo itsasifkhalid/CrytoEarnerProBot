@@ -3,7 +3,7 @@ import * as path from 'path'
 import IConfig from '../interfaces/IConfig'
 import Logger from './logger.js'
 
-const config: IConfig = require(path.join(process.cwd(), 'config', 'config.json'))
+const config: IConfig = require('../../config/config.json')
 
 export default class DB {
     private static url: string
