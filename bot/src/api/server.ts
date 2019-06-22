@@ -1,23 +1,27 @@
 // Modules
-import express from 'express'
-import mongoose from 'mongoose'
+import express, { Express, Router } from 'express'
 import router from './router/router'
 import Logger from '../init/logger.js'
 
-// Constants
-const host: string = 'localhost'
-const port: number = 8888
+const cors = require('cors')
 
-// Express server
-const server = express()
+export default class Server {
+	public static host: string = 'localhost'
+	public static port: number = 8888
 
-// Routing
-server.use('/', router);
+	public static app: Express = express()
+	public static router: Router = router
 
-export default function init() {
-	// Listen for requests
-	server.listen(port, host, () => {
-		console.log(`>>> Api server is listening at ${host}:${port}!`);
-		//Logger.trace(`>>> Api server is listening at ${host}:${port}!`);
-	})
+	public static init() {
+		// Using CORS
+		this.app.use(cors())
+
+		// Routing
+		this.app.use('/', this.router)
+
+		// Listen for requests
+		this.app.listen(this.port, this.host, () => {
+			Logger.trace(`>>> АПИ сервер слушает на http://${this.host}:${this.port}`);
+		})
+	}
 }
