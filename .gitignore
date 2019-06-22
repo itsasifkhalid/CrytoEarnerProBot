@@ -1,5 +1,5 @@
 .vscode/
-config/config.json
+*/config/config.json
 logfile.log
 dist/
 node_modules/
