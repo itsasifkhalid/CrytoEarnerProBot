@@ -1,4 +1,3 @@
-import * as path from 'path'
 import Telegraf from 'telegraf'
 import IConfig from '../interfaces/IConfig'
 import Logger from './logger'
