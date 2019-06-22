@@ -27,7 +27,7 @@ export default class App extends Component<{}, AppState> {
 
 
     render() {
-        const users = this.state.users.map((user, index) => {
+        const users = this.state.users.map((user) => {
             return (
                 <div key={user.id} className='card'>
                     <h2>{user.name}</h2>
