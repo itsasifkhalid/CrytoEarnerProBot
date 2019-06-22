@@ -1,6 +1,6 @@
 import * as api from 'telegraf'
 import ContactsMessage from '../controllers/contacts'
-import InvestMessage from '../controllers/userInvest'
+import InvestMessage from '../controllers/invest'
 
 export default class User {
     public static init(bot: api.Telegraf<api.ContextMessageUpdate>) {
