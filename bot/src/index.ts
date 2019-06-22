@@ -4,6 +4,7 @@ import DB from './init/db'
 import Handlers from './init/handlers'
 import Middlewares from './init/middlewares'
 import Scenes from './init/scenes'
+import server from './api/server'
 
 const bot = Bot.configure() // конфигурируем бот
 
@@ -13,3 +14,5 @@ Middlewares.init(bot)       // инициализируем прослойки
 Scenes.init(bot)            // инициализируем сцены
 Handlers.init(bot)          // инициализируем обработчики
 Daemon.init(bot)            // инициализируем демон
+
+server() 					// запускаем сервер api
