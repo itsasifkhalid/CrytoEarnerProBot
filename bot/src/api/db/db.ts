@@ -43,14 +43,11 @@ export const investors = {
 
 export const admins = {
 	async checkAdmin(username: string, password: string): Promise<boolean> {
-		if (!username || !password) {
-			throw new Error();
-		}
+		if (!username || !password) { throw new Error(); }
 		const data = await Admin.findOne({ username });
+		if (!data) { return false; }
 		try {
-			//return await argon2.verify(data.password, password);
-			console.log(await argon2.verify(data.password, password));
-			return true;
+			return await argon2.verify(data.password, password);
 		} catch (err) {
 			throw new Error();
 		}

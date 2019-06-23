@@ -46,9 +46,11 @@ export const auth = {
 			const isAdmin = await db.admins.checkAdmin(username, password);
 			
 			if (isAdmin) {
-				res.end('Authorized');
+				res.header('StatusCode', '200');
+				res.end();
 			} else {
-				res.end('Unauthorized');
+				res.header('StatusCode', '401');
+				res.end();
 			}
 		} catch (err) {
 			res.header('StatusCode', '500');

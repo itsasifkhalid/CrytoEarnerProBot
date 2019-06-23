@@ -4,3 +4,4 @@ logfile.log
 dist/
 node_modules/
 TODO
+docs.txt
