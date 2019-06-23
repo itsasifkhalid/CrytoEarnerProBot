@@ -47,6 +47,17 @@ export const investors = {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
 		}
+	},
+	async cancel(req: express.Request, res: express.Response): Promise<void> {
+		const { username, id } = req.body;
+		try {
+			await db.investors.cancelInvestment(username, id);
+			res.header('StatusCode', '200');
+			res.end();
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');	
+		}
 	}
 }
 

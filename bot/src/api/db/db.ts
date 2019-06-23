@@ -51,7 +51,25 @@ export const investors = {
 	async banInvestor(username: string): Promise<void> {
 		if (!username) { throw new Error(); }
 		try {
-			await Investor.updateMany({ username }, { status: investorStatus.BLOCKED });
+			await Investor.updateOne({ username }, { status: investorStatus.BLOCKED });
+		} catch (err) {
+			throw new Error();
+		}
+	},
+	async cancelInvestment(username: string, id: string): Promise<void> {
+		if (!username || !id) { throw new Error(); }
+		try {
+			const data = await Investor.findOne({ username });
+			if (!data || !data.investments) { return; }
+			let flag: boolean = false;
+			data.investments.forEach((item, index) => {
+				if (item.id === id) {
+					data.investments[index].id = id;
+					flag = true;
+				}
+			});
+			if (!flag) { return; }
+			await Investor.updateOne({ username }, data);
 		} catch (err) {
 			throw new Error();
 		}

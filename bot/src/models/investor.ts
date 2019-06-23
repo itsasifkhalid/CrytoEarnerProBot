@@ -14,6 +14,7 @@ export interface IInvestor extends Document {
 	status: investorState,
 	balance?: number,
 	investments?: [{
+		id: string,
 		date: Date,
 		expires: Date,
 		sum: number,
@@ -29,6 +30,7 @@ export const InvestorSchema: Schema = new Schema({
 	status: { type: Number, required: true },
 	balance: { type: Number, required: false },
 	investments: [{
+		id: String,
 		date: Date,
 		expires: Date,
 		sum: Number,
