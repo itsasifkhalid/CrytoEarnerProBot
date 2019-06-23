@@ -3,6 +3,37 @@ import Investor, { IInvestor, investorStatus, investmentStatus } from '../../mod
 import ExpectedInvestment, { IExpectedInvestment } from '../../models/expectedInvestment'
 import Admin, { IAdmin } from '../../models/admin'
 
+export const stats = {
+	async getBalance(): Promise<string> {
+		try {
+			const data = JSON.parse(await investors.getInvestors());
+			let balance = 0;
+			data.forEach((investor) => {
+				balance += investor.balance;
+			});
+			return JSON.stringify({ balance });
+		} catch (err) {
+			throw new Error();
+		}
+	},
+	async getInvestorsAmount(): Promise<string> {
+		try {
+			const data = JSON.parse(await investors.getInvestors());
+			return JSON.stringify({ amount: data.length });
+		} catch (err) {
+			throw new Error();
+		}
+	},
+	async getInvestorsAmountToday(): Promise<string> {
+		try {
+			const data = await Investor.find({ date: { $gt: (new Date()).getTime() - 8.64e7 } });
+			return JSON.stringify({ amount: data.length });
+		} catch (err) {
+			throw new Error();
+		}
+	} 
+}
+
 export const investors = {
 	async getInvestors(): Promise<string> {
 		try {

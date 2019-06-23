@@ -13,7 +13,8 @@ export async function addInvestor(username: string, fullName: string): Promise<v
         username: username,
         fullName: fullName,
         status: status,
-        balance: balance
+        balance: balance,
+        date: new Date()
     })
 
     // Сохраняем его

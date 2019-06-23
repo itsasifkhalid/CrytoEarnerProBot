@@ -13,6 +13,7 @@ export interface IInvestor extends Document {
 	fullName?: string,
 	status: investorState,
 	balance?: number,
+	date?: Date,
 	investments?: [{
 		id: string,
 		date: Date,
@@ -29,6 +30,7 @@ export const InvestorSchema: Schema = new Schema({
 	fullName: { type: String, required: false },
 	status: { type: Number, required: true },
 	balance: { type: Number, required: false },
+	date: { type: Date, required: false },
 	investments: [{
 		id: String,
 		date: Date,

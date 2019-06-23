@@ -3,13 +3,37 @@ import * as db from '../db/db'
 
 export const stats = {
 	async balance(req: express.Request, res: express.Response): Promise<void> {
-		res.end('balance');
+		try {
+			const balance = await db.stats.getBalance();
+			res.header('StatusCode', '200');
+			res.header('Content-Type', 'application/json');
+			res.end(balance);
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');
+		}
 	},
 	async investorsAmount(req: express.Request, res: express.Response): Promise<void> {
-		res.end('investors amount');
+		try {
+			const amount = await db.stats.getInvestorsAmount();
+			res.header('StatusCode', '200');
+			res.header('Content-Type', 'application/json');
+			res.end(amount);
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');
+		}
 	},
 	async investorsToday(req: express.Request, res: express.Response): Promise<void> {
-		res.end('investors today');
+		try {
+			const amountToday = await db.stats.getInvestorsAmountToday();
+			res.header('StatusCode', '200');
+			res.header('Content-Type', 'application/json');
+			res.end(amountToday);
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');
+		}
 	}
 }
 
