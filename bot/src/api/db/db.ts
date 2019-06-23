@@ -1,12 +1,12 @@
+import argon2 from 'argon2'
 import Investor, { IInvestor, investorStatus, investmentStatus } from '../../models/investor'
 import ExpectedInvestment, { IExpectedInvestment } from '../../models/expectedInvestment'
+import Admin, { IAdmin } from '../../models/admin'
 
-export function getInvestors(): Promise<string> {
-	return new Promise((resolve, reject) => {
-		Investor.find({}, (err, data) => {
-			if (err) {
-				reject();
-			}
+export const investors = {
+	async getInvestors(): Promise<string> {
+		try {
+			const data = await Investor.find({});
 			const investors = [];
 			data.forEach((investor) => {
 				investors.push({
@@ -18,17 +18,14 @@ export function getInvestors(): Promise<string> {
 				});
 			});
 
-			resolve(JSON.stringify(investors));
-		})
-	});
-}
-
-export function getInvestor(username: string): Promise<string> {
-	return new Promise((resolve, reject) => {
-		Investor.findOne({ username }, (err, data) => {
-			if (err) {
-				reject();
-			}
+			return JSON.stringify(investors);
+		} catch (err) {
+			throw new Error();
+		}
+	},
+	async getInvestor(username: string): Promise<string> {
+		try {
+			const data = await Investor.findOne({ username });
 			const investor = !data ? {} : {
 				username: data.username,
 				fullName: data.fullName,
@@ -37,7 +34,22 @@ export function getInvestor(username: string): Promise<string> {
 				investments: data.investments
 			}
 
-			resolve(JSON.stringify(investor));
-		})
-	});	
+			return JSON.stringify(investor);
+		} catch (err) {
+			throw new Error();
+		}
+	}
+}
+
+export const admins = {
+	async checkAdmin(username: string, password: string): Promise<boolean> {
+		if (!username || !password) { throw new Error(); }
+		const data = await Admin.findOne({ username });
+		if (!data) { return false; }
+		try {
+			return await argon2.verify(data.password, password);
+		} catch (err) {
+			throw new Error();
+		}
+	}
 }
