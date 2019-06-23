@@ -1,1 +1,9 @@
 @import '~antd/dist/antd.css';
+
+.App {
+    height: 100%;
+}
+.Tabs {
+    height: 100%;
+    width: 100%;
+}
