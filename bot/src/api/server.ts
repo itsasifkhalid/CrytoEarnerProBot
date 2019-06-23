@@ -1,5 +1,6 @@
 // Modules
 import express, { Express, Router } from 'express'
+import bodyParser from 'body-parser'
 import router from './router/router'
 import Logger from '../init/logger.js'
 
@@ -15,7 +16,9 @@ export default class Server {
 	public static init() {
 		// Using CORS
 		this.app.use(cors())
-
+		this.app.use(bodyParser.json());
+		this.app.use(bodyParser.urlencoded({ extended: true }));
+ 
 		// Routing
 		this.app.use('/', this.router)
 
