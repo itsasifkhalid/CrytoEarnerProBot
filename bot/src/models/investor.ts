@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
-export type investorState = 0 | 1
-export type investmentState = 0 | 1 | 2 | 3
+export type investorState = 0 | 1 | string
+export type investmentState = 0 | 1 | 2 | 3 | string
 
 export enum investorStatus { ACTIVE, BLOCKED }
 

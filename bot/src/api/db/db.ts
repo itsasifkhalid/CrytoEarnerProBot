@@ -9,13 +9,17 @@ export const investors = {
 			const data = await Investor.find({});
 			const investors = [];
 			data.forEach((investor) => {
-				investors.push({
+				const obj = {
 					username: investor.username,
 					fullName: investor.fullName,
-					status: investor.status,
+					status: investorStatus[investor.status],
 					balance: investor.balance,
 					investments: investor.investments
+				};
+				obj.investments.forEach((item, index) => {
+					obj.investments[index].status = investmentStatus[obj.investments[index].status];
 				});
+				investors.push(obj);
 			});
 
 			return JSON.stringify(investors);
@@ -29,12 +33,25 @@ export const investors = {
 			const investor = !data ? {} : {
 				username: data.username,
 				fullName: data.fullName,
-				status: data.status,
+				status: investorStatus[data.status],
 				balance: data.balance,
 				investments: data.investments
 			}
+			if (investor.investments) {
+				investor.investments.forEach((item, index) => {
+					investor.investments[index].status = investmentStatus[investor.investments[index].status];
+				});
+			}
 
 			return JSON.stringify(investor);
+		} catch (err) {
+			throw new Error();
+		}
+	},
+	async banInvestor(username: string): Promise<void> {
+		if (!username) { throw new Error(); }
+		try {
+			await Investor.updateMany({ username }, { status: investorStatus.BLOCKED });
 		} catch (err) {
 			throw new Error();
 		}

@@ -26,12 +26,23 @@ export const investors = {
 		}
 	},
 	async investor(req: express.Request, res: express.Response): Promise<void> {
-		const username = req.query.username;
+		const { username } = req.query;
 		try {
 			const investor = await db.investors.getInvestor(username);			
 			res.header('StatusCode', '200');
 			res.header('Content-Type', 'application/json');
 			res.end(investor);
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');
+		}
+	},
+	async ban(req: express.Request, res: express.Response): Promise<void> {
+		const { username } = req.body;
+		try {
+			await db.investors.banInvestor(username);
+			res.header('StatusCode', '200');
+			res.end();
 		} catch (err) {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
@@ -46,6 +57,9 @@ export const auth = {
 			const isAdmin = await db.admins.checkAdmin(username, password);
 			
 			if (isAdmin) {
+				req.session.authorized = true;
+				req.session.username = username;
+
 				res.header('StatusCode', '200');
 				res.end();
 			} else {
