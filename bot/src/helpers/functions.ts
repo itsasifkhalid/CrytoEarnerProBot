@@ -1,6 +1,7 @@
 import * as api from 'telegraf'
 import Logger from '../init/logger'
 import User, { IUser } from '../models/user'
+import Investor from '../models/investor'
 
 const { floor, random } = Math
 
@@ -96,6 +97,16 @@ export async function dismissAdmin(chatId: number): Promise<void> {
     }
     catch (err) {
         throw new Error(`Ошибка при отстранении админа: ${err.message}`)
+    }
+}
+
+export async function getBalance(username: string): Promise<number> {
+    try {
+        const data = await Investor.findOne({ username });
+        if (!data) { return 0; }
+        return data.balance;
+    } catch (err) {
+        throw new Error();
     }
 }
 

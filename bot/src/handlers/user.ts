@@ -1,6 +1,7 @@
 import * as api from 'telegraf'
 import ContactsMessage from '../controllers/contacts'
 import InvestMessage from '../controllers/invest'
+import BalanceMessage from '../controllers/balance'
 
 export default class User {
     public static init(bot: api.Telegraf<api.ContextMessageUpdate>) {
@@ -11,6 +12,10 @@ export default class User {
 
         bot.hears('💼 Контакты', async (ctx: any) => {
             await ContactsMessage.send(ctx)
+        })
+
+        bot.hears('💼 Баланс', async (ctx: any) => {
+            await BalanceMessage.send(ctx)
         })
     }
 }
