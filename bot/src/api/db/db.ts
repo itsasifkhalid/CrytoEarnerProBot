@@ -101,7 +101,15 @@ export const investors = {
 	async banInvestor(username: string): Promise<void> {
 		if (!username) { throw new Error(); }
 		try {
-			await Investor.updateOne({ username }, { status: investorStatus.BLOCKED });
+			const data = await Investor.findOne({ username });
+			if (!data) { return; }
+			data.status = investorStatus.BLOCKED;
+			if (data.investments) {
+				data.investments.forEach((item, index) => {
+					data.investments[index].status = investmentStatus.CANCELED;
+				});
+			}
+			await Investor.updateOne({ username }, data);
 		} catch (err) {
 			throw new Error();
 		}
