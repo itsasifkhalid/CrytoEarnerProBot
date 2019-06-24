@@ -3,15 +3,19 @@ export default interface IConfig {
         token: string
         dbUrl: string
         port: number,
-        session: {
-            name: string,
-            secret: string,
-            resave: boolean,
-            saveUninitialized: boolean,
-            cookie: {
-                path: string,
-                maxAge: number,
-                httpOnly: boolean
+        api: {
+            host: string,
+            port: number,
+            session: {
+                name: string,
+                secret: string,
+                resave: boolean,
+                saveUninitialized: boolean,
+                cookie: {
+                    path: string,
+                    maxAge: number,
+                    httpOnly: boolean
+                }
             }
         }
     },
@@ -19,15 +23,19 @@ export default interface IConfig {
         token: string
         dbUrl: string
         port: number,
-        session: {
-            name: string,
-            secret: string,
-            resave: boolean,
-            saveUninitialized: boolean,
-            cookie: {
-                path: string,
-                maxAge: number,
-                httpOnly: boolean
+        api: {
+            host: string,
+            port: number,
+            session: {
+                name: string,
+                secret: string,
+                resave: boolean,
+                saveUninitialized: boolean,
+                cookie: {
+                    path: string,
+                    maxAge: number,
+                    httpOnly: boolean
+                }
             }
         }
     }

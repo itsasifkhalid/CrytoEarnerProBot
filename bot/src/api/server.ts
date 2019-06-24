@@ -11,14 +11,14 @@ const config: IConfig = require('../../config/config.json')
 const MongoStore = require('connect-mongo')(session);
 
 export default class Server {
-	public static host: string = 'localhost'
-	public static port: number = 8888
+	public static host: string = process.env.NODE_ENV === 'production' ? config.prod.api.host : config.dev.api.host;
+	public static port: number = process.env.NODE_ENV === 'production' ? config.prod.api.port : config.dev.api.port;
 
 	public static app: Express = express()
 	public static router: Router = router
 
 	public static init() {
-		let sessionConfig = process.env.NODE_ENV === 'production' ? config.prod.session : config.dev.session;
+		let sessionConfig = process.env.NODE_ENV === 'production' ? config.prod.api.session : config.dev.api.session;
 		sessionConfig = Object.assign(sessionConfig, {
 			store: new MongoStore({
 	      		url: process.env.NODE_ENV === 'production' ? config.prod.dbUrl : config.dev.dbUrl
