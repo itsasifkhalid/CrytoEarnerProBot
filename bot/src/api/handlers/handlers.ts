@@ -2,6 +2,17 @@ import express from 'express'
 import * as db from '../db/db'
 
 export const stats = {
+	async all(req: express.Request, res: express.Response): Promise<void> {
+		try {
+			const all = await db.stats.getAll();
+			res.header('StatusCode', '200');
+			res.header('Content-Type', 'application/json');
+			res.end(all);
+		} catch (err) {
+			res.header('StatusCode', '500');
+			res.end('Error: Internal server error');
+		}
+	},
 	async balance(req: express.Request, res: express.Response): Promise<void> {
 		try {
 			const balance = await db.stats.getBalance();

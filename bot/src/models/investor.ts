@@ -2,11 +2,11 @@ import mongoose, { Document, Schema } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
 export type investorState = 0 | 1 | string
-export type investmentState = 0 | 1 | 2 | 3 | string
+export type investmentState = 0 | 1 | 2 | string
 
 export enum investorStatus { ACTIVE, BLOCKED }
 
-export enum investmentStatus { ACTIVE, CLOSED, CANCELED, WAITING }
+export enum investmentStatus { ACTIVE, CLOSED, CANCELED }
 
 export interface IInvestor extends Document {
 	username: string,

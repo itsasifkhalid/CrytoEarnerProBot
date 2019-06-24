@@ -1,3 +1,4 @@
+/stats/all - вся статистика ( balance - общий баланс, amount - количество инвесторов, amountToday - количество новых инвесторов сегодня )
 /stats/balance - общий баланс
 /stats/investors_amount - общее кол-во юзеров
 /stats/investors_today - кол-во новых юзеров сегодня

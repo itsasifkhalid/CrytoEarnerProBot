@@ -4,6 +4,25 @@ import ExpectedInvestment, { IExpectedInvestment } from '../../models/expectedIn
 import Admin, { IAdmin } from '../../models/admin'
 
 export const stats = {
+	async getAll(): Promise<string> {
+		try {
+			let data = JSON.parse(await investors.getInvestors());
+			let balance = 0;
+			let amount = data.length;
+			data.forEach((investor) => {
+				balance += investor.balance;
+			});
+			data = await Investor.find({ date: { $gt: (new Date()).getTime() - 8.64e7 } });
+			let amountToday = data.length;
+			return JSON.stringify({
+				balance,
+				amount,
+				amountToday
+			});
+		} catch (err) {
+			throw new Error();
+		}
+	},
 	async getBalance(): Promise<string> {
 		try {
 			const data = JSON.parse(await investors.getInvestors());
@@ -95,7 +114,7 @@ export const investors = {
 			let flag: boolean = false;
 			data.investments.forEach((item, index) => {
 				if (item.id === id) {
-					data.investments[index].id = id;
+					data.investments[index].status = investmentStatus.CANCELED;
 					flag = true;
 				}
 			});
