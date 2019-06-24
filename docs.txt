@@ -1,11 +1,12 @@
+/stats/all - вся статистика ( balance - общий баланс, amount - количество инвесторов, amountToday - количество новых инвесторов сегодня )
 /stats/balance - общий баланс
 /stats/investors_amount - общее кол-во юзеров
 /stats/investors_today - кол-во новых юзеров сегодня
 /investors/all - JSON с инфой обо всех юзерах
 /investors/investor?username=example - JSON с инфой об одном юзере
-/investors/ban?username=example - бан инвестора ( status = BLOCKED )
-/investors/cancel?username=example&&id=example - отмена инвестиции ( id - идентификатор инвестиции; status = CANCELED )
-/auth/sign_in - авторизация (POST-запрос, параметры: username, password)
+/investors/ban - бан инвестора ( POST-запрос, параметры: username - юзернейм инвестора, status = BLOCKED )
+/investors/cancel - отмена инвестиции ( POST-запрос, параметры: username - юзернейм инвестора, id - идентификатор инвестиции; status = CANCELED )
+/auth/sign_in - авторизация (POST-запрос, параметры: username - юзернейм админа, password - пароль админа)
 
 Статус коды:
 	1. 200 - успешно

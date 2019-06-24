@@ -5,6 +5,7 @@ import * as handlers from '../handlers/handlers'
 const router = Router()
 
 // Routes
+router.get('/stats/all', handlers.stats.all);
 router.get('/stats/balance', handlers.stats.balance);
 router.get('/stats/investors_amount', handlers.stats.investorsAmount);
 router.get('/stats/investors_today', handlers.stats.investorsToday);
