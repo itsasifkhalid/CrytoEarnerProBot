@@ -14,7 +14,7 @@ export default class InvestMessage {
 			fullName = `${ctx.from.first_name} ${ctx.from.last_name}`
 		}
 
-		addInvestor(username, fullName);
+		addInvestor(chatId, username, fullName);
 
 		const paymendId: string = randomString(24);
 

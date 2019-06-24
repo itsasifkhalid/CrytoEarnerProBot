@@ -9,6 +9,7 @@ export enum investorStatus { ACTIVE, BLOCKED }
 export enum investmentStatus { NEW, ACTIVE, CLOSED }
 
 export interface IInvestor extends Document {
+	chatId: number,
 	username: string,
 	fullName?: string,
 	status: investorState,
@@ -20,12 +21,13 @@ export interface IInvestor extends Document {
 		expires: Date,
 		sum: number,
 		status: investmentState,
-		node: string
+		note: string
 	}]
 }
 
 // Схема инвестора
 export const InvestorSchema: Schema = new Schema({
+	chatId: { type: Number, required: true, unique: true },
 	username: { type: String, required: true, unique: true },
 	fullName: { type: String, required: false },
 	status: { type: Number, required: true },
@@ -37,7 +39,7 @@ export const InvestorSchema: Schema = new Schema({
 		expires: Date,
 		sum: Number,
 		status: Number,
-		node: String
+		note: String
 	}]
 }, { collection: 'investors' })
 

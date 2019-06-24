@@ -3,17 +3,18 @@ import Logger from '../init/logger'
 import Investor, { investorStatus, investmentStatus } from '../models/investor'
 import ExpectedInvestment from '../models/expectedInvestment'
 
-export async function addInvestor(username: string, fullName: string): Promise<void> {
+export async function addInvestor(chatId: number, username: string, fullName: string): Promise<void> {
     // Получаем данные о пользователе из контекста
     let status = investorStatus.ACTIVE;
     let balance = 0;
 
     // Создаём нового инвестора
     let investor = new Investor({
-        username: username,
-        fullName: fullName,
-        status: status,
-        balance: balance,
+        chatId,
+        username,
+        fullName,
+        status,
+        balance,
         date: new Date()
     })
 
@@ -25,24 +26,49 @@ export async function addInvestor(username: string, fullName: string): Promise<v
     })
 }
 
-export async function addInvestment(paymendId: string, chatId: number): Promise<void> {
+export async function addInvestment(id: string, chatId: number): Promise<void> {
 	let expectedInvestment = new ExpectedInvestment({
-		id: paymendId,
-		chatId: chatId
+		id,
+		chatId
 	})
 
 	await expectedInvestment.save((err) => {
 		if (!err) {
-			Logger.notify(`Добавлена новая инвестиция: ${paymendId}!`)	
+			Logger.notify(`Добавлена новая инвестиция: ${id}!`)	
 		}
 	})
+}
+
+export async function activeInvestment(id: string, sum: number): Promise<void> {
+    try {
+        const investment = await ExpectedInvestment.findOne({ id });
+        if (!investment) { return; }
+        const { chatId } = investment;
+        await ExpectedInvestment.deleteOne({ id });
+        const investor = await Investor.findOne({ chatId });
+        if (!investor) { return; }
+        const newInvestment = {
+            id,
+            date: new Date(),
+            expires: new Date((new Date()).getTime() + 6.048e8),
+            sum,
+            status: investmentStatus.NEW,
+            note: ''
+        };
+        if (!investor.investments) {
+            investor.investments = [newInvestment];
+            return;
+        }
+        investor.investments.push(newInvestment);
+    } catch (err) {
+        throw err;
+    }
 }
 
 export async function checkTransaction(transactionSuccess: (chatId: number, balance: number) => void): Promise<void> {
     // проверяем новые транзакции
     // если транзакция пришла:
-    // 1. удаляем транзакцию из expectedInvestments
-    // 2. добавляем транзакцию соответствующему инвестору в investors со статусом NEW
-    // 3. получаем текущий баланс у инвестора
-    // 4. вызываем transactionSuccess(chatId, balance)
+    // 1. вызываем activeInvestment(id, sum)
+    // 2. получаем текущий баланс у инвестора
+    // 3. вызываем transactionSuccess(chatId, balance)
 }
