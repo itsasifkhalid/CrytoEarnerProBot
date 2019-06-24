@@ -42,7 +42,7 @@ export async function checkTransaction(transactionSuccess: (chatId: number, bala
     // проверяем новые транзакции
     // если транзакция пришла:
     // 1. удаляем транзакцию из expectedInvestments
-    // 2. добавляем транзакцию соответствующему инвестору в investors
+    // 2. добавляем транзакцию соответствующему инвестору в investors со статусом NEW
     // 3. получаем текущий баланс у инвестора
     // 4. вызываем transactionSuccess(chatId, balance)
 }

@@ -6,7 +6,7 @@ export type investmentState = 0 | 1 | 2 | string
 
 export enum investorStatus { ACTIVE, BLOCKED }
 
-export enum investmentStatus { ACTIVE, CLOSED, CANCELED }
+export enum investmentStatus { NEW, ACTIVE, CLOSED }
 
 export interface IInvestor extends Document {
 	username: string,

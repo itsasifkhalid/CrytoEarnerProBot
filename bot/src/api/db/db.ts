@@ -20,7 +20,7 @@ export const stats = {
 				amountToday
 			});
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
 	async getBalance(): Promise<string> {
@@ -32,7 +32,7 @@ export const stats = {
 			});
 			return JSON.stringify({ balance });
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
 	async getInvestorsAmount(): Promise<string> {
@@ -40,7 +40,7 @@ export const stats = {
 			const data = JSON.parse(await investors.getInvestors());
 			return JSON.stringify({ amount: data.length });
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
 	async getInvestorsAmountToday(): Promise<string> {
@@ -48,7 +48,7 @@ export const stats = {
 			const data = await Investor.find({ date: { $gt: (new Date()).getTime() - 8.64e7 } });
 			return JSON.stringify({ amount: data.length });
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	} 
 }
@@ -74,7 +74,7 @@ export const investors = {
 
 			return JSON.stringify(investors);
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
 	async getInvestor(username: string): Promise<string> {
@@ -95,41 +95,47 @@ export const investors = {
 
 			return JSON.stringify(investor);
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
-	async banInvestor(username: string): Promise<void> {
-		if (!username) { throw new Error(); }
+	async setInvestorStatus(username: string, status: string): Promise<void> {
+		if (!username || !status) { throw new Error(); }
+		if (!(status in investorStatus)) { throw new Error(); }
 		try {
+			if (investorStatus[status] !== investorStatus.BLOCKED) {
+				await Investor.updateOne({ username }, { $set: { status: investorStatus[status] } });
+				return;	
+			}
 			const data = await Investor.findOne({ username });
 			if (!data) { return; }
 			data.status = investorStatus.BLOCKED;
 			if (data.investments) {
 				data.investments.forEach((item, index) => {
-					data.investments[index].status = investmentStatus.CANCELED;
+					data.investments[index].status = investmentStatus.CLOSED;
 				});
 			}
 			await Investor.updateOne({ username }, data);
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	},
-	async cancelInvestment(username: string, id: string): Promise<void> {
-		if (!username || !id) { throw new Error(); }
+	async setInvestmentStatus(username: string, id: string, status: string): Promise<void> {
+		if (!username || !id || !status) { throw new Error(); }
+		if (!(status in investmentStatus)) { throw new Error(); }
 		try {
 			const data = await Investor.findOne({ username });
 			if (!data || !data.investments) { return; }
 			let flag: boolean = false;
 			data.investments.forEach((item, index) => {
 				if (item.id === id) {
-					data.investments[index].status = investmentStatus.CANCELED;
+					data.investments[index].status = investmentStatus[status];
 					flag = true;
 				}
 			});
 			if (!flag) { return; }
 			await Investor.updateOne({ username }, data);
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	}
 }
@@ -142,7 +148,7 @@ export const admins = {
 		try {
 			return await argon2.verify(data.password, password);
 		} catch (err) {
-			throw new Error();
+			throw err;
 		}
 	}
 }

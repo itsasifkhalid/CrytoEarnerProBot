@@ -72,10 +72,11 @@ export const investors = {
 			res.end('Error: Internal server error');
 		}
 	},
-	async ban(req: express.Request, res: express.Response): Promise<void> {
-		const { username } = req.body;
+	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
+		let { username, status } = req.body;
+		status = status.toUpperCase();
 		try {
-			await db.investors.banInvestor(username);
+			await db.investors.setInvestorStatus(username, status);
 			res.header('StatusCode', '200');
 			res.end();
 		} catch (err) {
@@ -83,15 +84,16 @@ export const investors = {
 			res.end('Error: Internal server error');
 		}
 	},
-	async cancel(req: express.Request, res: express.Response): Promise<void> {
-		const { username, id } = req.body;
+	async setInvestmentStatus(req: express.Request, res: express.Response): Promise<void> {
+		let { username, id, status } = req.body;
+		status = status.toUpperCase();
 		try {
-			await db.investors.cancelInvestment(username, id);
+			await db.investors.setInvestmentStatus(username, id, status);
 			res.header('StatusCode', '200');
 			res.end();
 		} catch (err) {
 			res.header('StatusCode', '500');
-			res.end('Error: Internal server error');	
+			res.end('Error: Internal server error');
 		}
 	}
 }
@@ -116,5 +118,11 @@ export const auth = {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
 		}
-	}	
+	},
+	async signOut(req: express.Request, res: express.Response): Promise<void> {
+		delete req.session.authorized;
+		delete req.session.username;
+		res.header('StatusCode', '200');
+		res.end();
+	}
 }
