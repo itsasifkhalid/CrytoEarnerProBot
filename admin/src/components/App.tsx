@@ -12,11 +12,11 @@ export default class App extends Component {
             <div className="App">
                 <PageHeader className="SidebarTitle" title="Admin" subTitle={new Date().toLocaleDateString()} />
 
-                <Tabs className="Tabs" defaultActiveKey="2" tabPosition={'left'} tabBarStyle={{ width: 150 }}>
+                <Tabs className="Tabs" defaultActiveKey="1" tabPosition={'left'} tabBarStyle={{ width: 150 }}>
                     <TabPane className="TabPane" key="1" tab="Статистика">
                         <Stats />
                     </TabPane>
-                    <TabPane className="TabPane" key="2" tab="Пользователи">
+                    <TabPane className="TabPane" key="2" tab="Инвестиции">
                         <UsersTable />
                     </TabPane>
                     <TabPane className="TabPane" key="3" tab="Настройки">

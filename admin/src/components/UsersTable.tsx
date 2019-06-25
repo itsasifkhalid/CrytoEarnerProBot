@@ -1,9 +1,7 @@
 import Column from 'antd/es/table/Column'
 import React, { Component } from 'react'
-import { Input, Select, Skeleton, Table, Tag } from 'antd'
+import { Input, Skeleton, Table, Tag } from 'antd'
 import '../styles/Stats.css'
-
-const { Option } = Select
 
 export default class UsersTable extends Component {
     render() {
@@ -15,7 +13,7 @@ export default class UsersTable extends Component {
                 investDate: '25.05.2019',
                 payoutDate: '31.05.2019',
                 investAmount: '3000 UAH',
-                status: 'Инвестор',
+                status: 'Активная',
                 note: 'молодец'
             },
             {
@@ -25,14 +23,14 @@ export default class UsersTable extends Component {
                 investDate: '27.05.2019',
                 payoutDate: '04.06.2019',
                 investAmount: '7500 UAH',
-                status: 'Закрыт',
+                status: 'Закрытая',
                 note: ''
             }
         ]
 
         return (
             <div className="UsersTable">
-                <h2>Пользователи</h2>
+                <h2>Инвестиции</h2>
                 <Skeleton active={true} paragraph={{ rows: 15 }} loading={false}/>
 
                 <Table dataSource={dataSource}>
@@ -53,11 +51,10 @@ export default class UsersTable extends Component {
                         dataIndex="status"
                         key="status"
                         render={(status: any) => (
-                            <Select defaultValue={status} style={{ width: 120 }}>
-                                <Option value="investor">Инвестор</Option>
-                                <Option value="closed">Закрыт</Option>
-                                <Option value="canceled">Отменён</Option>
-                            </Select>
+                            <span>
+                                <Tag color="blue" style={{ width: 80, textAlign: 'center' }}>{status}</Tag>
+                                <a href="#" style={{ color: '#FF5E49', fontSize: 13 }}>Отменить</a>
+                            </span>
                         )}
                     />
                     <Column
