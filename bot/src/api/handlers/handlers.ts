@@ -3,6 +3,11 @@ import * as db from '../db/db'
 
 export const stats = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		try {
 			const all = await db.stats.getAll();
 			res.header('StatusCode', '200');
@@ -14,6 +19,11 @@ export const stats = {
 		}
 	},
 	async balance(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		try {
 			const balance = await db.stats.getBalance();
 			res.header('StatusCode', '200');
@@ -25,6 +35,11 @@ export const stats = {
 		}
 	},
 	async investorsAmount(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		try {
 			const amount = await db.stats.getInvestorsAmount();
 			res.header('StatusCode', '200');
@@ -36,6 +51,11 @@ export const stats = {
 		}
 	},
 	async investorsToday(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		try {
 			const amountToday = await db.stats.getInvestorsAmountToday();
 			res.header('StatusCode', '200');
@@ -50,6 +70,11 @@ export const stats = {
 
 export const investors = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		try {
 			const investors = await db.investors.getInvestors();
 			res.header('StatusCode', '200');
@@ -61,6 +86,11 @@ export const investors = {
 		}
 	},
 	async investor(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		const { username } = req.query;
 		try {
 			const investor = await db.investors.getInvestor(username);			
@@ -73,6 +103,11 @@ export const investors = {
 		}
 	},
 	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		let { username, status } = req.body;
 		status = status.toUpperCase();
 		try {
@@ -85,6 +120,11 @@ export const investors = {
 		}
 	},
 	async setInvestmentStatus(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
 		let { username, id, status } = req.body;
 		status = status.toUpperCase();
 		try {
@@ -99,6 +139,15 @@ export const investors = {
 }
 
 export const auth = {
+	check(req: express.Request, res: express.Response): void {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end();
+			return;
+		}
+		res.header('StatusCode', '200');
+		res.end();
+	},
 	async signIn(req: express.Request, res: express.Response): Promise<void> {
 		const { username, password } = req.body;
 		try {

@@ -6,6 +6,7 @@
 /investors/investor?username=example - JSON с инфой об одном юзере
 /investors/set_investor_status - изменить статус инвестора ( POST-запрос, параметры: username - юзернейм инвестора, status - новый статус = ACTIVE / BLOCKED )
 /investors/set_investment_status - изменить статус инвестиции ( POST-запрос, параметры: username - юзернейм инвестора, status - новый статус = NEW / ACTIVE / CLOSED )
+/auth/check - проверка авторизации ( 200 - авторизован, 401 - не авторизован )
 /auth/sign_in - авторизация ( POST-запрос, параметры: username - юзернейм админа, password - пароль админа )
 /auth/sign_out - выход админа ( удаление сессии )
 
