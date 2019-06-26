@@ -13,6 +13,7 @@ router.get('/investors/all', handlers.investors.all);
 router.get('/investors/investor', handlers.investors.investor);
 router.get('/auth/check', handlers.auth.check)
 router.get('/auth/sign_out', handlers.auth.signOut)
+router.post('/investors/add_investment', handlers.investors.addInvestment)
 router.post('/investors/set_investor_status', handlers.investors.setInvestorStatus)
 router.post('/investors/set_investment_status', handlers.investors.setInvestmentStatus)
 router.post('/auth/sign_in', handlers.auth.signIn)
