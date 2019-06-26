@@ -143,7 +143,7 @@ export const investors = {
 			res.end('Error: Internal server error');
 		}
 	},
-	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
+	async setInvestorNote(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
 			res.end(JSON.stringify({}));
