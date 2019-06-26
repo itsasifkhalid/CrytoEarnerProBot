@@ -4,6 +4,11 @@ import { addInvestment } from '../../helpers/invest'
 
 export const stats = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		try {
 			const all = await db.stats.getAll();
 			res.header('StatusCode', '200');
@@ -15,6 +20,11 @@ export const stats = {
 		}
 	},
 	async balance(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		try {
 			const balance = await db.stats.getBalance();
 			res.header('StatusCode', '200');
@@ -26,6 +36,11 @@ export const stats = {
 		}
 	},
 	async investorsAmount(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		try {
 			const amount = await db.stats.getInvestorsAmount();
 			res.header('StatusCode', '200');
@@ -37,6 +52,11 @@ export const stats = {
 		}
 	},
 	async investorsToday(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		try {
 			const amountToday = await db.stats.getInvestorsAmountToday();
 			res.header('StatusCode', '200');
@@ -51,6 +71,11 @@ export const stats = {
 
 export const investors = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		try {
 			const investors = await db.investors.getInvestors();
 			res.header('StatusCode', '200');
@@ -62,6 +87,11 @@ export const investors = {
 		}
 	},
 	async investor(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		const { username } = req.query;
 		try {
 			const investor = await db.investors.getInvestor(username);			
@@ -80,6 +110,11 @@ export const investors = {
 		res.end(JSON.stringify({}));
 	},
 	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		let { username, status } = req.body;
 		status = status.toUpperCase();
 		try {
@@ -92,6 +127,11 @@ export const investors = {
 		}
 	},
 	async setInvestmentStatus(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		let { username, id, status } = req.body;
 		status = status.toUpperCase();
 		try {
@@ -104,6 +144,11 @@ export const investors = {
 		}
 	},
 	async setInvestmentNote(req: express.Request, res: express.Response): Promise<void> {
+		if (!req.session.authorized) {
+			res.header('StatusCode', '401');
+			res.end(JSON.stringify({}));
+			return;
+		}
 		let { username, id, note } = req.body;
 		try {
 			await db.investors.setInvestmentNote(username, id, note);
