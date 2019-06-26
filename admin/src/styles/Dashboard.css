@@ -1,0 +1,8 @@
+.Tabs {
+    height: 100%;
+    width: 100%;
+}
+
+.TabPane {
+    padding-right: 24px;
+}

@@ -1,29 +1,23 @@
 import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
 import '../styles/App.css'
-import { PageHeader, Skeleton, Tabs } from 'antd'
-import Stats from './Stats'
-import UsersTable from './UsersTable'
-
-const { TabPane } = Tabs
+import Dashboard from './Dashboard'
+import Login from './Login'
 
 export default class App extends Component {
+    async checkAuth() {
+        let res = await fetch('http://127.0.0.1:8888/auth/check')
+        console.log(res)
+    }
+
     render() {
+        this.checkAuth()
         return (
             <div className="App">
-                <PageHeader className="SidebarTitle" title="Admin" subTitle={new Date().toLocaleDateString()} />
-
-                <Tabs className="Tabs" defaultActiveKey="1" tabPosition={'left'} tabBarStyle={{ width: 150 }}>
-                    <TabPane className="TabPane" key="1" tab="Статистика">
-                        <Stats />
-                    </TabPane>
-                    <TabPane className="TabPane" key="2" tab="Инвестиции">
-                        <UsersTable />
-                    </TabPane>
-                    <TabPane className="TabPane" key="3" tab="Настройки">
-                        <h2>Настройки...</h2>
-                        <Skeleton active={true} paragraph={{ rows: 5 }} loading={true}/>
-                    </TabPane>
-                </Tabs>
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <Route path="/dashboard" component={Dashboard} />
+                </Switch>
             </div>
         )
     }
