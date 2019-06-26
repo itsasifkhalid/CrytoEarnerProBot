@@ -16,10 +16,6 @@ export default class InvestMessage {
 
 		addInvestor(chatId, username, fullName);
 
-		const paymendId: string = randomString(24);
-
-		addInvestment(paymendId, chatId);
-
 		// Вывод заготовленного текста с инфой куда присылать деньги + уникальный идентификатор платежа paymentId
 
 		await ctx.reply('Функция в разработке')

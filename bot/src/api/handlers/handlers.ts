@@ -1,5 +1,6 @@
 import express from 'express'
 import * as db from '../db/db'
+import { addInvestment } from '../../helpers/invest'
 
 export const stats = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
@@ -101,6 +102,12 @@ export const investors = {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
 		}
+	},
+	async addInvestment(req: express.Request, res: express.Response): Promise<void> {
+		const { id, chatId } = req.query;
+		addInvestment(id, chatId);
+		res.header('StatusCode', '200')
+		res.end();
 	},
 	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
