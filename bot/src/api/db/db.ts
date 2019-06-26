@@ -137,6 +137,14 @@ export const investors = {
 		} catch (err) {
 			throw err;
 		}
+	},
+	async setInvestorNote(username: string, note: string): Promise<void> {
+		if (!username || !note) { throw new Error(); }
+		try {
+			await Investor.updateOne({ username }, { $set: { note } });
+		} catch (err) {
+			throw err;
+		}
 	}
 }
 
