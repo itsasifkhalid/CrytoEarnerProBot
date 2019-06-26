@@ -6,7 +6,7 @@ export const stats = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		try {
@@ -22,7 +22,7 @@ export const stats = {
 	async balance(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		try {
@@ -38,7 +38,7 @@ export const stats = {
 	async investorsAmount(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		try {
@@ -54,7 +54,7 @@ export const stats = {
 	async investorsToday(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		try {
@@ -73,7 +73,7 @@ export const investors = {
 	async all(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		try {
@@ -89,7 +89,7 @@ export const investors = {
 	async investor(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		const { username } = req.query;
@@ -107,12 +107,12 @@ export const investors = {
 		const { id, chatId } = req.query;
 		addInvestment(id, chatId);
 		res.header('StatusCode', '200')
-		res.end();
+		res.end(JSON.stringify({}));
 	},
 	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		let { username, status } = req.body;
@@ -120,7 +120,7 @@ export const investors = {
 		try {
 			await db.investors.setInvestorStatus(username, status);
 			res.header('StatusCode', '200');
-			res.end();
+			res.end(JSON.stringify({}));
 		} catch (err) {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
@@ -129,7 +129,7 @@ export const investors = {
 	async setInvestmentStatus(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		let { username, id, status } = req.body;
@@ -137,7 +137,7 @@ export const investors = {
 		try {
 			await db.investors.setInvestmentStatus(username, id, status);
 			res.header('StatusCode', '200');
-			res.end();
+			res.end(JSON.stringify({}));
 		} catch (err) {
 			res.header('StatusCode', '500');
 			res.end('Error: Internal server error');
@@ -149,11 +149,11 @@ export const auth = {
 	check(req: express.Request, res: express.Response): void {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
-			res.end();
+			res.end(JSON.stringify({}));
 			return;
 		}
 		res.header('StatusCode', '200');
-		res.end();
+		res.end(JSON.stringify({}));
 	},
 	async signIn(req: express.Request, res: express.Response): Promise<void> {
 		const { username, password } = req.body;
@@ -165,10 +165,10 @@ export const auth = {
 				req.session.username = username;
 
 				res.header('StatusCode', '200');
-				res.end();
+				res.end(JSON.stringify({}));
 			} else {
 				res.header('StatusCode', '401');
-				res.end();
+				res.end(JSON.stringify({}));
 			}
 		} catch (err) {
 			res.header('StatusCode', '500');
@@ -179,6 +179,6 @@ export const auth = {
 		delete req.session.authorized;
 		delete req.session.username;
 		res.header('StatusCode', '200');
-		res.end();
+		res.end(JSON.stringify({}));
 	}
 }
