@@ -138,10 +138,20 @@ export const investors = {
 			throw err;
 		}
 	},
-	async setInvestorNote(username: string, note: string): Promise<void> {
+	async setInvestmentNote(username: string, note: string): Promise<void> {
 		if (!username || !note) { throw new Error(); }
 		try {
-			await Investor.updateOne({ username }, { $set: { note } });
+			const data = await Investor.findOne({ username });
+			if (!data || !data.investments) { return; }
+			let flag: boolean = false;
+			data.investments.forEach((item, index) => {
+				if (item.id === id) {
+					data.investments[index].note = note;
+					flag = true;
+				}
+			});
+			if (!flag) { return; }
+			await Investor.updateOne({ username }, data);
 		} catch (err) {
 			throw err;
 		}

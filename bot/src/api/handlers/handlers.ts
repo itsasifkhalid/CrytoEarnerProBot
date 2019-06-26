@@ -143,7 +143,7 @@ export const investors = {
 			res.end('Error: Internal server error');
 		}
 	},
-	async setInvestorNote(req: express.Request, res: express.Response): Promise<void> {
+	async setInvestmentNote(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
 			res.end(JSON.stringify({}));
@@ -151,7 +151,7 @@ export const investors = {
 		}
 		let { username, note } = req.body;
 		try {
-			await db.investors.setInvestorNote(username, status);
+			await db.investors.setInvestmentNote(username, status);
 			res.header('StatusCode', '200');
 			res.end(JSON.stringify({}));
 		} catch (err) {
