@@ -105,7 +105,7 @@ export const investors = {
 	},
 	async addInvestment(req: express.Request, res: express.Response): Promise<void> {
 		const { id, chatId } = req.query;
-		addInvestment(id, chatId);
+		await addInvestment(id, chatId);
 		res.header('StatusCode', '200')
 		res.end(JSON.stringify({}));
 	},
@@ -143,7 +143,7 @@ export const investors = {
 			res.end('Error: Internal server error');
 		}
 	},
-	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
+	async setInvestorNote(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.header('StatusCode', '401');
 			res.end(JSON.stringify({}));
