@@ -85,10 +85,6 @@ export const investors = {
 			res.status(500).end('Error: Internal server error');
 		}
 	},
-	async addInvestment(req: express.Request, res: express.Response): Promise<void> {
-		const { id, chatId } = req.query;
-		await addInvestment(id, chatId);
-	},
 	async setInvestorStatus(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.status(401).end(JSON.stringify({}));
@@ -103,6 +99,13 @@ export const investors = {
 			res.status(500).end('Error: Internal server error');
 		}
 	},
+}
+
+export const investments = {
+	async addInvestment(req: express.Request, res: express.Response): Promise<void> {
+		const { id, chatId } = req.query;
+		await addInvestment(id, chatId);
+	},
 	async setInvestmentStatus(req: express.Request, res: express.Response): Promise<void> {
 		if (!req.session.authorized) {
 			res.status(401).end(JSON.stringify({}));
@@ -111,7 +114,7 @@ export const investors = {
 		let { username, id, status } = req.body;
 		status = status.toUpperCase();
 		try {
-			await db.investors.setInvestmentStatus(username, id, status);
+			await db.investments.setInvestmentStatus(username, id, status);
 			res.status(200).end(JSON.stringify({}));
 		} catch (err) {
 			res.status(500).end('Error: Internal server error');
@@ -124,7 +127,7 @@ export const investors = {
 		}
 		let { username, id, note } = req.body;
 		try {
-			await db.investors.setInvestmentNote(username, id, note);
+			await db.investments.setInvestmentNote(username, id, note);
 			res.status(200).end(JSON.stringify({}));
 		} catch (err) {
 			res.status(500).end('Error: Internal server error');

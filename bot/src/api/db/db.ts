@@ -118,7 +118,10 @@ export const investors = {
 		} catch (err) {
 			throw err;
 		}
-	},
+	}
+}
+
+export const investments = {
 	async setInvestmentStatus(username: string, id: string, status: string): Promise<void> {
 		if (!username || !id || !status) { throw new Error(); }
 		if (!(status in investmentStatus)) { throw new Error(); }

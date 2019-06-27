@@ -13,10 +13,10 @@ router.get('/investors/all', handlers.investors.all);
 router.get('/investors/investor', handlers.investors.investor);
 router.get('/auth/check', handlers.auth.check)
 router.get('/auth/sign_out', handlers.auth.signOut)
-router.post('/investors/add_investment', handlers.investors.addInvestment)
 router.post('/investors/set_investor_status', handlers.investors.setInvestorStatus)
-router.post('/investors/set_investment_status', handlers.investors.setInvestmentStatus)
-router.post('/investors/set_investment_note', handlers.investors.setInvestmentNote)
+router.post('/investments/add_investment', handlers.investments.addInvestment)
+router.post('/investments/set_investment_status', handlers.investments.setInvestmentStatus)
+router.post('/investments/set_investment_note', handlers.investments.setInvestmentNote)
 router.post('/auth/sign_in', handlers.auth.signIn)
 
 // Default export
