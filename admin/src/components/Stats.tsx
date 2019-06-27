@@ -26,7 +26,9 @@ export default class Stats extends Component<{}, StatsState> {
     async loadData() {
         this.setState({ loading: true })
 
-        let res = await fetch('http://127.0.0.1:8888/stats/all')
+        let res = await fetch('http://localhost:8888/stats/all', {
+            credentials: 'include'
+        })
         let json = await res.json()
 
         this.setState({

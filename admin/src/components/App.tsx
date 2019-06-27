@@ -1,24 +1,52 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import '../styles/App.css'
 import Dashboard from './Dashboard'
 import Login from './Login'
 
-export default class App extends Component {
+export interface AppState {
+    authorized: boolean
+}
+
+export default class App extends Component<{}, AppState> {
+    constructor(props: any) {
+        super(props)
+
+        this.state = {
+            authorized: false
+        }
+    }
     async checkAuth() {
-        let res = await fetch('http://127.0.0.1:8888/auth/check')
-        console.log(res)
+        let res = await fetch('http://localhost:8888/auth/check', {
+            credentials: 'include'
+        })
+
+        this.setState({
+            authorized: res.status === 200
+        })
+        console.log(this.state)
     }
 
     render() {
-        this.checkAuth()
         return (
             <div className="App">
                 <Switch>
-                    <Route exact path="/" component={Login} />
-                    <Route path="/dashboard" component={Dashboard} />
+                    <Route exact path="/" component={this.state.authorized ? Dashboard : Login} />
+                    <Route path="/dashboard" component={this.state.authorized ? Dashboard : LoginRedirect} />
                 </Switch>
             </div>
+        )
+    }
+
+    async componentDidMount() {
+        await this.checkAuth()
+    }
+}
+
+export class LoginRedirect extends Component {
+    render() {
+        return (
+            <Redirect to='/' />
         )
     }
 }
