@@ -1,6 +1,7 @@
 import { Button, Card, Col, Icon, Row, Statistic } from 'antd'
 import React, { Component } from 'react'
 import '../styles/Stats.css'
+import config from '../config.json'
 
 export interface StatsState {
     loading: boolean
@@ -26,7 +27,13 @@ export default class Stats extends Component<{}, StatsState> {
     async loadData() {
         this.setState({ loading: true })
 
-        let res = await fetch('http://127.0.0.1:8888/stats/all')
+        let url = process.env.NODE_ENV === 'production' ?
+            `http://${config.prod.api.host}:${config.prod.api.port}/` :
+            `http://${config.dev.api.host}:${config.dev.api.port}/`
+
+        let res = await fetch(url + 'stats/all', {
+            credentials: 'include'
+        })
         let json = await res.json()
 
         this.setState({

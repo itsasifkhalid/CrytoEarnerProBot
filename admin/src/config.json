@@ -1,0 +1,14 @@
+{
+  "dev": {
+	"api": {
+	  "host": "localhost",
+	  "port": 8888
+	}
+  },
+  "prod": {
+	"api": {
+	  "host": "localhost",
+	  "port": 8888
+	}
+  }
+}

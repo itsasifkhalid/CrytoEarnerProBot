@@ -1,7 +1,7 @@
-import { Button, Form, Icon, Input } from 'antd'
+import { Button, Form, Icon, Input, message } from 'antd'
 import React, { Component } from 'react'
 import '../styles/Login.css'
-import { Redirect } from 'react-router'
+import config from '../config.json'
 
 export interface LoginState {
     username: string
@@ -25,22 +25,35 @@ export default class Login extends Component<{}, LoginState> {
     async submitHandler(e: any) {
         e.preventDefault()
 
-        const params: any = {username: 'admin', password: 'admin'}
+        if (this.state.username && this.state.password) {
+            let url = process.env.NODE_ENV === 'production' ?
+            `http://${config.prod.api.host}:${config.prod.api.port}/` :
+            `http://${config.dev.api.host}:${config.dev.api.port}/`
 
-        const searchParams = Object.keys(params).map((key) => {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-        }).join('&');
+            let res = await fetch(url + 'auth/sign_in', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            })
 
-        let res = await fetch('http://127.0.0.1:8888/auth/sign_in', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: searchParams,
-            credentials: 'same-origin'
-        })
-
-        console.log(res.headers.get('set-cookie'))
+            switch (res.status) {
+                case 200:
+                    window.location.reload()
+                    break
+                case 401:
+                    message.error('Неверный логин и/или пароль', 2)
+                    break
+            }
+        }
+        else {
+            message.warn('Заполните все поля!')
+        }
     }
 
     usernameChangeHandler(e: any) {
