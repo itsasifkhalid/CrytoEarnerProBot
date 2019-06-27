@@ -25,7 +25,7 @@ export default class Server {
 		    })
 		});
 
-		this.app.use(cors()) // CORS
+		this.app.use(cors({ credentials: true, origin: `http://${this.host}:${this.port}/` })) // CORS
 		this.app.use(bodyParser.json()); // Body parser
 		this.app.use(bodyParser.urlencoded({ extended: true }));
  		this.app.use(session(sessionConfig)); // Sessions
