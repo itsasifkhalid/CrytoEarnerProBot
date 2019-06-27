@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, PageHeader, Skeleton, Tabs } from 'antd'
 import '../styles/Dashboard.css'
+import config from '../config.json'
 import Stats from './Stats'
 import UsersTable from './UsersTable'
 
@@ -8,7 +9,11 @@ const { TabPane } = Tabs
 
 export default class Dashboard extends Component{
     async signOutHandler() {
-        await fetch('http://localhost:8888/auth/sign_out', {
+        let url = process.env.NODE_ENV === 'production' ?
+            `http://${config.prod.api.host}:${config.prod.api.port}/` :
+            `http://${config.dev.api.host}:${config.dev.api.port}/`
+
+        await fetch(url + 'auth/sign_out', {
             credentials: 'include'
         })
 
@@ -22,7 +27,7 @@ export default class Dashboard extends Component{
                     title="Админ"
                     subTitle={new Date().toLocaleDateString()}
                     extra={[
-                        <Button type="danger" onClick={this.signOutHandler}>Выйти</Button>
+                        <Button key="1" type="danger" onClick={this.signOutHandler}>Выйти</Button>
                     ]}
                 />
 

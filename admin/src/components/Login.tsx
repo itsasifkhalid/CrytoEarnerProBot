@@ -1,6 +1,7 @@
 import { Button, Form, Icon, Input, message } from 'antd'
 import React, { Component } from 'react'
 import '../styles/Login.css'
+import config from '../config.json'
 
 export interface LoginState {
     username: string
@@ -25,8 +26,11 @@ export default class Login extends Component<{}, LoginState> {
         e.preventDefault()
 
         if (this.state.username && this.state.password) {
+            let url = process.env.NODE_ENV === 'production' ?
+            `http://${config.prod.api.host}:${config.prod.api.port}/` :
+            `http://${config.dev.api.host}:${config.dev.api.port}/`
 
-            let res = await fetch('http://localhost:8888/auth/sign_in', {
+            let res = await fetch(url + 'auth/sign_in', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

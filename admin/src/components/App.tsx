@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import '../styles/App.css'
 import Dashboard from './Dashboard'
 import Login from './Login'
+import config from '../config.json'
 
 export interface AppState {
     authorized: boolean
@@ -17,7 +18,13 @@ export default class App extends Component<{}, AppState> {
         }
     }
     async checkAuth() {
-        let res = await fetch('http://localhost:8888/auth/check', {
+        let url = process.env.NODE_ENV === 'production' ?
+            `http://${config.prod.api.host}:${config.prod.api.port}/` :
+            `http://${config.dev.api.host}:${config.dev.api.port}/`
+
+        console.log(url)
+
+        let res = await fetch(url + 'auth/check', {
             credentials: 'include'
         })
 
