@@ -30,23 +30,12 @@ export default class App extends Component<{}, AppState> {
     render() {
         return (
             <div className="App">
-                <Switch>
-                    <Route exact path="/" component={this.state.authorized ? Dashboard : Login} />
-                    <Route path="/dashboard" component={this.state.authorized ? Dashboard : LoginRedirect} />
-                </Switch>
+                <Route exact path="/" component={this.state.authorized ? Dashboard : Login} />
             </div>
         )
     }
 
     async componentDidMount() {
         await this.checkAuth()
-    }
-}
-
-export class LoginRedirect extends Component {
-    render() {
-        return (
-            <Redirect to='/' />
-        )
     }
 }
