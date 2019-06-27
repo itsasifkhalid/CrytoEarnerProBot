@@ -21,8 +21,8 @@ export default class Server {
 		let sessionConfig = process.env.NODE_ENV === 'production' ? config.prod.api.session : config.dev.api.session;
 		sessionConfig = Object.assign(sessionConfig, {
 			store: new MongoStore({
-	      		url: process.env.NODE_ENV === 'production' ? config.prod.dbUrl : config.dev.dbUrl
-		    })
+				url: process.env.NODE_ENV === 'production' ? config.prod.dbUrl : config.dev.dbUrl
+			})
 		});
 		const corsOptions = {
 			credentials: true,
