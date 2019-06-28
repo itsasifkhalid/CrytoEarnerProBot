@@ -1,4 +1,4 @@
-import { Button, Card, Col, Icon, Row, Statistic } from 'antd'
+import { Button, Card, Col, Icon, message, Row, Statistic } from 'antd'
 import React, { Component } from 'react'
 import '../styles/Stats.css'
 import config from '../config.json'
@@ -24,7 +24,7 @@ export default class Stats extends Component<{}, StatsState> {
         this.updateHandler = this.updateHandler.bind(this)
     }
 
-    async loadData() {
+    async loadData(update = false) {
         this.setState({ loading: true })
 
         let url = process.env.NODE_ENV === 'production' ?
@@ -42,10 +42,17 @@ export default class Stats extends Component<{}, StatsState> {
             investorsAmount: json.amount,
             investorsToday: json.amountToday
         })
+
+        if (update) {
+            if (res.status === 200)
+                message.success('Данные обновлены!', 1)
+            else
+                message.error('Произошла ошибка при обновлении', 1)
+        }
     }
 
     async updateHandler() {
-        await this.loadData()
+        await this.loadData(true)
     }
 
     render() {

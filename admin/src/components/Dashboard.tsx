@@ -3,7 +3,7 @@ import { Button, PageHeader, Skeleton, Tabs } from 'antd'
 import '../styles/Dashboard.css'
 import config from '../config.json'
 import Stats from './Stats'
-import UsersTable from './UsersTable'
+import InvestmentsTable from './InvestmentsTable'
 
 const { TabPane } = Tabs
 
@@ -31,12 +31,12 @@ export default class Dashboard extends Component{
                     ]}
                 />
 
-                <Tabs className="Tabs" defaultActiveKey="1" tabPosition={'left'} tabBarStyle={{ width: 150, height: '100vh' }}>
+                <Tabs className="Tabs" defaultActiveKey="2" tabPosition={'left'} tabBarStyle={{ width: 150, height: '100vh' }}>
                     <TabPane className="TabPane" key="1" tab="Статистика">
                         <Stats />
                     </TabPane>
                     <TabPane className="TabPane" key="2" tab="Инвестиции">
-                        <UsersTable />
+                        <InvestmentsTable />
                     </TabPane>
                     <TabPane className="TabPane" key="3" tab="Настройки">
                         <h2>Настройки...</h2>
