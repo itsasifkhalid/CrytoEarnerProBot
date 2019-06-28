@@ -111,7 +111,7 @@ export const investors = {
 			data.status = investorStatus.BLOCKED;
 			if (data.investments) {
 				data.investments.forEach((item, index) => {
-					data.investments[index].status = investmentStatus.CLOSED;
+					data.investments[index].status = investmentStatus.CANCELED;
 				});
 			}
 			await Investor.updateOne({ username }, data);
@@ -142,7 +142,7 @@ export const investments = {
 		}
 	},
 	async setInvestmentNote(username: string, id: string, note: string): Promise<void> {
-		if (!username || !note) { throw new Error(); }
+		if (!username || note === undefined) { throw new Error(); }
 		try {
 			const data = await Investor.findOne({ username });
 			if (!data || !data.investments) { return; }

@@ -52,7 +52,7 @@ export async function activeInvestment(id: string, sum: number): Promise<void> {
             date: new Date(),
             expires: new Date((new Date()).getTime() + 6.048e8),
             sum,
-            status: investmentStatus.NEW,
+            status: investmentStatus.ACTIVE,
             note: ''
         };
         if (!investor.investments) {
