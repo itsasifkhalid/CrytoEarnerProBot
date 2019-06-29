@@ -22,8 +22,6 @@ export default class App extends Component<{}, AppState> {
             `http://${config.prod.api.host}:${config.prod.api.port}/` :
             `http://${config.dev.api.host}:${config.dev.api.port}/`
 
-        console.log(url)
-
         let res = await fetch(url + 'auth/check', {
             credentials: 'include'
         })
@@ -31,7 +29,6 @@ export default class App extends Component<{}, AppState> {
         this.setState({
             authorized: res.status === 200
         })
-        console.log(this.state)
     }
 
     render() {

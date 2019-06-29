@@ -60,6 +60,12 @@ export async function activeInvestment(id: string, sum: number): Promise<void> {
             return;
         }
         investor.investments.push(newInvestment);
+
+        await investor.save((err) => {
+            if (!err) {
+                Logger.notify(`Активирована новая инвестиция: ${id}!`)
+            }
+        })
     } catch (err) {
         throw err;
     }
