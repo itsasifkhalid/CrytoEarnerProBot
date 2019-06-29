@@ -172,15 +172,19 @@ export const admins = {
 			throw err;
 		}
 	},
-	async changePassword(username: string, password: string): Promise<void> {
-		if (!username || !password) { throw new Error(); }
+	async changePassword(username: string, oldPassword: string, newPassword: string): Promise<boolean> {
+		if (!username || !oldPassword || !newPassword) { throw new Error(); }
 		const data = await Admin.findOne({ username });
 		if (!data) { return; }
 		try {
-			data.password = await argon2.hash(password);
-			await Admin.updateOne({ username }, data);
-		}
-		 catch (err) {
+			if (await argon2.verify(data.password, oldPassword)) {
+				const password = await argon2.hash(newPassword);
+				await Admin.updateOne({ username }, { $set: { password } });
+				return true;
+			} else {
+				return false;
+			}
+		} catch (err) {
 			throw err;
 		}
 	}
