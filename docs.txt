@@ -9,6 +9,8 @@
 /investments/set_investment_status - изменить статус инвестиции ( POST-запрос, параметры: username - юзернейм инвестора, status - новый статус = NEW / ACTIVE / CLOSED )
 /investments/set_investment_note - изменить заметку инвестиции ( POST-запрос, параметры: username - юзернейм инвестора, id - идентификатор инвестиции, note - новая заметка )
 /auth/check - проверка авторизации ( 200 - авторизован, 401 - не авторизован )
+/auth/check_password - проверка логина / пароля ( POST-запрос, параметры: username - юзернейм админа, password - пароль админа )
+/auth/change_password - смена пароля ( POST-запрос, параметры: username - юзернейм админа, password - пароль админа )
 /auth/sign_in - авторизация ( POST-запрос, параметры: username - юзернейм админа, password - пароль админа )
 /auth/sign_out - выход админа ( удаление сессии )
 

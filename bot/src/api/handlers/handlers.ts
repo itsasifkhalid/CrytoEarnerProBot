@@ -143,6 +143,29 @@ export const auth = {
 		}
 		res.status(200).end(JSON.stringify({}));
 	},
+	async checkPassword(req: express.Request, res: express.Response): Promise<void> {
+		const { username, password } = req.body;
+		try {
+			const isAdmin = await db.admins.checkAdmin(username, password);
+			
+			if (isAdmin) {
+				res.status(200).end(JSON.stringify({}));
+			} else {
+				res.status(452).end(JSON.stringify({}));
+			}
+		} catch (err) {
+			res.status(500).end('Error: Internal server error');
+		}
+	},
+	async changePassword(req: express.Request, res: express.Response): Promise<void> {
+		const { username, password } = req.body;
+		try {
+			await db.admins.changePassword(username, password);
+			res.status(200).end(JSON.stringify({}));
+		} catch {
+			res.status(500).end('Error: Internal server error');			
+		}
+	},
 	async signIn(req: express.Request, res: express.Response): Promise<void> {
 		const { username, password } = req.body;
 		try {

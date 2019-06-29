@@ -171,5 +171,17 @@ export const admins = {
 		} catch (err) {
 			throw err;
 		}
+	},
+	async changePassword(username: string, password: string): Promise<void> {
+		if (!username || !password) { throw new Error(); }
+		const data = await Admin.findOne({ username });
+		if (!data) { return; }
+		try {
+			data.password = await argon2.hash(password);
+			await Admin.updateOne({ username }, data);
+		}
+		 catch (err) {
+			throw err;
+		}
 	}
 }

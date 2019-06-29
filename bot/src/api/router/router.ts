@@ -17,6 +17,8 @@ router.post('/investors/set_investor_status', handlers.investors.setInvestorStat
 router.post('/investments/add_investment', handlers.investments.addInvestment)
 router.post('/investments/set_investment_status', handlers.investments.setInvestmentStatus)
 router.post('/investments/set_investment_note', handlers.investments.setInvestmentNote)
+router.post('/auth/check_password', handlers.auth.checkPassword)
+router.post('/auth/change_password', handlers.auth.changePassword)
 router.post('/auth/sign_in', handlers.auth.signIn)
 
 // Default export
