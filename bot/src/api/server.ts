@@ -24,13 +24,7 @@ export default class Server {
 				url: process.env.NODE_ENV === 'production' ? config.prod.dbUrl : config.dev.dbUrl
 			})
 		});
-		const corsOptions = {
-			credentials: true,
-			origin: [
-				`http://${this.host}:${this.port}`,
-				`http://localhost:3000`
-			]
-		};
+		const corsOptions = process.env.NODE_ENV === 'production' ? config.prod.cors : config.dev.cors;
 
 		this.app.use(cors(corsOptions)) // CORS
 		this.app.use(bodyParser.json()); // Body parser

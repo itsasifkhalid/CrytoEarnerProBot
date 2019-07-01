@@ -17,6 +17,10 @@ export default interface IConfig {
                     httpOnly: boolean
                 }
             }
+        },
+        cors: {
+            credentials: boolean,
+            origin: string[]
         }
     },
     prod: {
@@ -37,6 +41,10 @@ export default interface IConfig {
                     httpOnly: boolean
                 }
             }
+        },
+        cors: {
+            credentials: boolean,
+            origin: string[]
         }
     }
 }
