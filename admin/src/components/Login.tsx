@@ -81,9 +81,8 @@ export default class Login extends Component<{}, LoginState> {
                     />
                 </Form.Item>
                 <Form.Item>
-                    <Input
+                    <Input.Password
                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-                        type="password"
                         placeholder="Пароль"
                         onChange={this.passwordChangeHandler}
                     />

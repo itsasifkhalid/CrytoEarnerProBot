@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button, PageHeader, Skeleton, Tabs } from 'antd'
+import { Button, PageHeader, Tabs } from 'antd'
 import '../styles/Dashboard.css'
 import config from '../config.json'
+import Settings from './Settings'
 import Stats from './Stats'
 import InvestmentsTable from './InvestmentsTable'
 
@@ -31,7 +32,7 @@ export default class Dashboard extends Component{
                     ]}
                 />
 
-                <Tabs className="Tabs" defaultActiveKey="2" tabPosition={'left'} tabBarStyle={{ width: 150, height: '100vh' }}>
+                <Tabs className="Tabs" defaultActiveKey="1" tabPosition={'left'} tabBarStyle={{ width: 150, height: '100vh' }}>
                     <TabPane className="TabPane" key="1" tab="Статистика">
                         <Stats />
                     </TabPane>
@@ -39,8 +40,7 @@ export default class Dashboard extends Component{
                         <InvestmentsTable />
                     </TabPane>
                     <TabPane className="TabPane" key="3" tab="Настройки">
-                        <h2>Настройки...</h2>
-                        <Skeleton active={true} paragraph={{ rows: 5 }} loading={true}/>
+                        <Settings />
                     </TabPane>
                 </Tabs>
             </div>
