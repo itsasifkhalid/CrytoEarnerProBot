@@ -39,42 +39,45 @@ export async function addInvestment(id: string, chatId: number): Promise<void> {
 	})
 }
 
-export async function activeInvestment(id: string, sum: number): Promise<void> {
+export async function activeInvestment(id: string, amount: number): Promise<{ chatId: number, balance: number }> {
     try {
-        const investment = await ExpectedInvestment.findOne({ id });
+        const investment = await ExpectedInvestment.findOne({ id }); // Ищем в expectedInvestments
         if (!investment) { return; }
-        const { chatId } = investment;
-        await ExpectedInvestment.deleteOne({ id });
-        const investor = await Investor.findOne({ chatId });
+        const { chatId } = investment; // Берем chatId
+        const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
         if (!investor) { return; }
-        const newInvestment = {
+        await ExpectedInvestment.deleteOne({ id }); // Удаляем из expectedInvestments
+        const newInvestment = { // Создаем новую инвестицию
             id,
             date: new Date(),
             expires: new Date((new Date()).getTime() + 6.048e8),
-            sum,
+            amount,
             status: investmentStatus.ACTIVE,
             note: ''
         };
-        if (!investor.investments) {
+        /*if (!investor.investments) {
             investor.investments = [newInvestment];
             return;
-        }
-        investor.investments.push(newInvestment);
+        }*/
+        investor.investments.push(newInvestment); // Добавляем ее соответствующему инвестору
+        investor.balance += amount; // Увеличиваем баланс инвестора
 
-        await investor.save((err) => {
-            if (!err) {
-                Logger.notify(`Активирована новая инвестиция: ${id}!`)
-            }
-        })
+        const { balance } = investor;
+
+        await investor.save(); // Сохраняем инвестора
+
+        Logger.notify(`Активирована новая инвестиция: ${id}!`) 
+        
+        return { chatId, balance };
     } catch (err) {
         throw err;
     }
 }
 
-export async function checkTransaction(transactionSuccess: (chatId: number, balance: number) => void): Promise<void> {
-    // проверяем новые транзакции
-    // если транзакция пришла:
-    // 1. вызываем activeInvestment(id, sum)
-    // 2. получаем текущий баланс у инвестора
-    // 3. вызываем transactionSuccess(chatId, balance)
+export async function payInvestment(id: string, chatId: number): Promise<void> {
+    try {
+        const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
+    } catch (err) {
+        throw err;
+    }
 }

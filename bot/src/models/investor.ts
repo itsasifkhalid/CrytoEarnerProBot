@@ -20,7 +20,7 @@ export interface IInvestor extends Document {
 		id: string,
 		date: Date,
 		expires: Date,
-		sum: number,
+		amount: number,
 		status: investmentState,
 		note: string
 	}]
@@ -38,7 +38,7 @@ export const InvestorSchema: Schema = new Schema({
 		id: String,
 		date: Date,
 		expires: Date,
-		sum: Number,
+		amount: Number,
 		status: Number,
 		note: String
 	}]

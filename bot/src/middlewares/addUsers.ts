@@ -20,9 +20,9 @@ export default async (ctx: api.ContextMessageUpdate, next: Function) => {
 
     // Создаём нового пользователя
     let user = new User({
-        chatId: chatId,
-        username: username,
-        name: name
+        chatId,
+        username,
+        name
     })
 
     // Добавляем админа @vilkup или @kemarskiy
