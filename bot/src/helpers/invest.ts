@@ -77,6 +77,12 @@ export async function activeInvestment(id: string, amount: number): Promise<{ ch
 export async function payInvestment(id: string, chatId: number): Promise<void> {
     try {
         const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
+        investor.investments.forEach((investment) => {
+            if (investment.id !== id) { return; }
+            // выплачиваем инвестицию обратно инвестору
+            investment.status = investmentStatus.CLOSED;
+        });
+        await investor.save();
     } catch (err) {
         throw err;
     }

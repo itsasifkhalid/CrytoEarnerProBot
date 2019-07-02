@@ -66,8 +66,8 @@ export const investors = {
 					balance: investor.balance,
 					investments: investor.investments
 				};
-				obj.investments.forEach((item, index) => {
-					obj.investments[index].status = investmentStatus[obj.investments[index].status];
+				obj.investments.forEach((item) => {
+					item.status = investmentStatus[item.status];
 				});
 				investors.push(obj);
 			});
@@ -88,8 +88,8 @@ export const investors = {
 				investments: data.investments
 			}
 			if (investor.investments) {
-				investor.investments.forEach((item, index) => {
-					investor.investments[index].status = investmentStatus[investor.investments[index].status];
+				investor.investments.forEach((item) => {
+					item.status = investmentStatus[item.status];
 				});
 			}
 
@@ -110,8 +110,8 @@ export const investors = {
 			if (!data) { return; }
 			data.status = investorStatus.BLOCKED;
 			if (data.investments) {
-				data.investments.forEach((item, index) => {
-					data.investments[index].status = investmentStatus.CANCELED;
+				data.investments.forEach((item) => {
+					item.status = investmentStatus.CANCELED;
 				});
 			}
 			await Investor.updateOne({ username }, data);
@@ -129,9 +129,9 @@ export const investments = {
 			const data = await Investor.findOne({ username });
 			if (!data || !data.investments) { return; }
 			let flag: boolean = false;
-			data.investments.forEach((item, index) => {
+			data.investments.forEach((item) => {
 				if (item.id === id) {
-					data.investments[index].status = investmentStatus[status];
+					item.status = investmentStatus[status];
 					flag = true;
 				}
 			});
@@ -147,9 +147,9 @@ export const investments = {
 			const data = await Investor.findOne({ username });
 			if (!data || !data.investments) { return; }
 			let flag: boolean = false;
-			data.investments.forEach((item, index) => {
+			data.investments.forEach((item) => {
 				if (item.id === id) {
-					data.investments[index].note = note;
+					item.note = note;
 					flag = true;
 				}
 			});

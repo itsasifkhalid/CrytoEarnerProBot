@@ -64,7 +64,7 @@ export default class Daemon {
 			const data = await Investor.find({});
 			data.forEach((investor) => {
 				const { investments } = investor;
-				investments.forEach(async (investment, index) => {
+				investments.forEach(async (investment) => {
 					if (investment.expires > now || investment.status !== investmentStatus.ACTIVE) { return; }
 					await payInvestment(investment.id, investor.chatId);
 				});
