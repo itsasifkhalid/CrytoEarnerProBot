@@ -14,7 +14,7 @@ export default class InvestMessage {
 			fullName = `${ctx.from.first_name} ${ctx.from.last_name}`
 		}
 
-		addInvestor(chatId, username, fullName);
+		await addInvestor(chatId, username, fullName);
 
 		// Вывод заготовленного текста с инфой куда присылать деньги + уникальный идентификатор платежа paymentId
 

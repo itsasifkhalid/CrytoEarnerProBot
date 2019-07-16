@@ -5,45 +5,19 @@ import Investor from '../models/investor'
 
 const { floor, random } = Math
 
-/**
- * Получает список пользователей
- * @async
- * @function getUsers
- * @returns { Promise<IUser[]> }
- */
 export async function getUsers(): Promise<IUser[]> {
     return await User.find({})
 }
 
-/**
- * Получает список админов
- * @async
- * @function getAdmins
- * @returns { Promise<IUser[]> }
- */
 export async function getAdmins(): Promise<IUser[]> {
     return await User.find({ isAdmin: true })
 }
 
-/**
- * Проверяет является ли пользователь админом
- * @async
- * @function isAdmin
- * @param chatId
- * @returns { Promise<Boolean> }
- */
 export async function isAdmin(chatId: number): Promise<Boolean> {
     let res = await User.find({ chatId: chatId, isAdmin: true })
     return res.length > 0
 }
 
-/**
- * Проводит глобальную рассылку
- * @async
- * @function sendGlobal
- * @param ctx
- * @returns { Promise<void> }
- */
 export async function sendGlobal(ctx: api.ContextMessageUpdate): Promise<void> {
     let users = await User.find({})
 
@@ -51,21 +25,13 @@ export async function sendGlobal(ctx: api.ContextMessageUpdate): Promise<void> {
         if (user.chatId != ctx.from.id) {
             try {
                 await ctx.telegram.sendCopy(user.chatId, ctx.message)
-            }
-            catch (err) {
+            } catch (err) {
                 throw new Error(`Не удалось выполнить рассылку: ${err.message}`)
             }
         }
     }
 }
 
-/**
- * Добавляет нового админа
- * @async
- * @function addAdmin
- * @param chatId
- * @returns { Promise<void> }
- */
 export async function addAdmin(chatId: number): Promise<void> {
     try {
         let user = await User.findOne({ chatId: chatId })
@@ -77,37 +43,24 @@ export async function addAdmin(chatId: number): Promise<void> {
             if (!err)
                 Logger.notify('Добавлен новый админ!')
         })
-    }
-    catch (err) {
+    } catch (err) {
         throw new Error(`Ошибка при добавлении админа: ${err.message}`)
     }
 }
 
-/**
- * Отстраняет админа
- * @async
- * @function dismissAdmin
- * @param chatId
- * @returns { Promise<void> }
- */
 export async function dismissAdmin(chatId: number): Promise<void> {
     try {
         await User.updateOne({ chatId: chatId }, { isAdmin: false })
         Logger.notify('Админ успешно отстранён!')
-    }
-    catch (err) {
+    } catch (err) {
         throw new Error(`Ошибка при отстранении админа: ${err.message}`)
     }
 }
 
 export async function getBalance(username: string): Promise<number> {
-    try {
-        const data = await Investor.findOne({ username });
-        if (!data) { return 0; }
-        return data.balance;
-    } catch (err) {
-        throw new Error();
-    }
+    const data = await Investor.findOne({ username });
+    if (!data) { return 0; }
+    return data.balance;
 }
 
 export function randomString(size: number): string {

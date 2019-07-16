@@ -21,6 +21,10 @@ export default interface IConfig {
         cors: {
             credentials: boolean,
             origin: string[]
+        },
+        way4pay: {
+            merchantAccount,
+            percent
         }
     },
     prod: {
@@ -45,6 +49,10 @@ export default interface IConfig {
         cors: {
             credentials: boolean,
             origin: string[]
+        },
+        way4pay: {
+            merchantAccount,
+            percent
         }
     }
 }

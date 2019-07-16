@@ -14,8 +14,7 @@ export default class Handlers {
             CallbackQuery.init(bot) // Обработчик для callback запросов
 
             Logger.trace('>>> Обработчики инициализированы')
-        }
-        catch {
+        } catch (err) {
             Logger.trace('XXX Произошла ошибка при инициализации обработчиков!')
             process.exit(1)        // выход из приложения
         }

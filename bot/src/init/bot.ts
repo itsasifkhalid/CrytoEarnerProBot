@@ -2,7 +2,8 @@ import Telegraf from 'telegraf'
 import IConfig from '../interfaces/IConfig'
 import Logger from './logger'
 
-const config: IConfig = require('../../config/config.json')
+// Config
+const config: IConfig = require('../../config/config.json');
 
 export default class Bot {
     private static token: string

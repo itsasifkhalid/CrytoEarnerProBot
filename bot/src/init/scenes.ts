@@ -15,8 +15,7 @@ export default class Scenes {
             bot.use(stage.middleware())
 
             Logger.trace('>>> Сцены зарегистрированы')
-        }
-        catch {
+        } catch (err) {
             Logger.trace('XXX Произошла ошибка при регистрации сцен!')
             process.exit(1)             // выход из приложения
         }

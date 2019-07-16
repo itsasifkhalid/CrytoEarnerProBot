@@ -1,15 +1,18 @@
 import * as api from 'telegraf'
+import { refund } from './requests'
+import IConfig from '../interfaces/IConfig'
 import Logger from '../init/logger'
 import Investor, { investorStatus, investmentStatus } from '../models/investor'
 import ExpectedInvestment from '../models/expectedInvestment'
 
+// Config
+const config: IConfig = require('../../config/config.json');
+
 export async function addInvestor(chatId: number, username: string, fullName: string): Promise<void> {
-    // Получаем данные о пользователе из контекста
     let status = investorStatus.ACTIVE;
     let balance = 0;
 
-    // Создаём нового инвестора
-    let investor = new Investor({
+    let investor = new Investor({ // Создаём нового инвестора
         chatId,
         username,
         fullName,
@@ -18,12 +21,11 @@ export async function addInvestor(chatId: number, username: string, fullName: st
         date: new Date()
     })
 
-    // Сохраняем его
-    await investor.save((err) => {
+    await investor.save((err) => { // Сохраняем его
         if (!err) {
             Logger.notify(`Добавлен новый инвестор: @${username}!`)
         }
-    })
+    });
 }
 
 export async function addInvestment(id: string, chatId: number): Promise<void> {
@@ -34,56 +36,54 @@ export async function addInvestment(id: string, chatId: number): Promise<void> {
 
 	await expectedInvestment.save((err) => {
 		if (!err) {
-			Logger.notify(`Добавлена новая инвестиция: ${id}!`)	
+			Logger.notify(`Добавлена новая инвестиция: ${id}!`)
 		}
 	})
 }
 
 export async function activeInvestment(id: string, amount: number): Promise<{ chatId: number, balance: number }> {
-    try {
-        const investment = await ExpectedInvestment.findOne({ id }); // Ищем в expectedInvestments
-        if (!investment) { return; }
-        const { chatId } = investment; // Берем chatId
-        const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
-        if (!investor) { return; }
-        await ExpectedInvestment.deleteOne({ id }); // Удаляем из expectedInvestments
-        const newInvestment = { // Создаем новую инвестицию
-            id,
-            date: new Date(),
-            expires: new Date((new Date()).getTime() + 6.048e8),
-            amount,
-            status: investmentStatus.ACTIVE,
-            note: ''
-        };
-        /*if (!investor.investments) {
-            investor.investments = [newInvestment];
-            return;
-        }*/
-        investor.investments.push(newInvestment); // Добавляем ее соответствующему инвестору
-        investor.balance += amount; // Увеличиваем баланс инвестора
+    const investment = await ExpectedInvestment.findOne({ id }); // Ищем в expectedInvestments
+    if (!investment) { return; }
 
-        const { balance } = investor;
+    const { chatId } = investment; // Берем chatId
+    const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
+    if (!investor) { return; }
 
-        await investor.save(); // Сохраняем инвестора
+    const { merchantAccount, percent } = process.env.NODE_ENV === 'production' ? config.prod.way4pay : config.dev.way4pay;
+    const refundAmount = amount / 100 * percent; // Процент для выплаты инвестору
+    await refund(merchantAccount, id, refundAmount); // Выплачиваем процент инвестору
+    
+    await ExpectedInvestment.deleteOne({ id }); // Удаляем из expectedInvestments
+    const newInvestment = { // Создаем новую инвестицию
+        id,
+        date: new Date(),
+        expires: new Date((new Date()).getTime() + 6.048e8),
+        amount,
+        status: investmentStatus.ACTIVE,
+        note: ''
+    };
+    investor.investments.push(newInvestment); // Добавляем ее соответствующему инвестору
+    
+    investor.balance += amount; // Увеличиваем баланс инвестора
+    const { balance } = investor;
 
-        Logger.notify(`Активирована новая инвестиция: ${id}!`) 
-        
-        return { chatId, balance };
-    } catch (err) {
-        throw err;
-    }
+    await investor.save(); // Сохраняем инвестора
+    
+    Logger.notify(`Активирована новая инвестиция: ${id}!`) 
+    
+    return { chatId, balance };
 }
 
 export async function payInvestment(id: string, chatId: number): Promise<void> {
-    try {
-        const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
-        investor.investments.forEach((investment) => {
-            if (investment.id !== id) { return; }
-            // выплачиваем инвестицию обратно инвестору
-            investment.status = investmentStatus.CLOSED;
-        });
-        await investor.save();
-    } catch (err) {
-        throw err;
+    const investor = await Investor.findOne({ chatId }); // Ищем инвестора в investors
+    const { investments } = investor;
+    for (let i = 0; i < investments.length; i++) {
+        if (investments[i].id !== id) { continue; }
+        const { merchantAccount } = process.env.NODE_ENV === 'production' ? config.prod.way4pay : config.dev.way4pay;
+        const { amount } = investments[i];
+        await refund(merchantAccount, id, amount); // Выплачиваем сумму инвестору
+        investments[i].status = investmentStatus.CLOSED;
+        break;
     }
+    await investor.save();
 }

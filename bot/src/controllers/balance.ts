@@ -10,7 +10,7 @@ export default class ContactsMessage {
 	        const balance = await getBalance(ctx.from.username); 
 	        await ctx.reply(`Ваш текущий баланс: ${balance} UAH`);
     	} catch (err) {
-	        await ctx.reply(`Ваш текущий баланс: 0 UAH`);
+	        await ctx.reply(`Ошибка при получении баланса. Повторите попытку позже`);
     	}
     }
 }
