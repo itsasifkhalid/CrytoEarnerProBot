@@ -6,16 +6,17 @@ import Logger from './logger'
 const session = require('telegraf/session')
 
 export default class Middlewares {
-    public static init(bot: api.Telegraf<api.ContextMessageUpdate>): void {
-        try {
-            bot.use(addUsers)       // прослойка добавления пользователя в базу
-            bot.use(chatLogging)    // прослойка логирования переписки
-            bot.use(session())      // прослойка для использования сессий
-
-            Logger.trace('>>> Прослойки инициализированы')
-        } catch (err) {
-            Logger.trace('XXX Произошла ошибка при инициализации прослоек!')
-            process.exit(1)         // выход из приложения
-        }
+  public static init(bot: api.Telegraf<api.ContextMessageUpdate>): void {
+    try {
+      bot.use(addUsers)       // прослойка добавления пользователя в базу
+      bot.use(chatLogging)    // прослойка логирования переписки
+      bot.use(session())      // прослойка для использования сессий
+      
+      Logger.trace('>>> Прослойки инициализированы')
     }
+    catch (err) {
+      Logger.trace('XXX Произошла ошибка при инициализации прослоек!')
+      process.exit(1)         // выход из приложения
+    }
+  }
 }

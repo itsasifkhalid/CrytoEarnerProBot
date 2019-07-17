@@ -1,10 +1,10 @@
+import Server from './api/server'
 import Bot from './init/bot'
 import Daemon from './init/daemon'
 import DB from './init/db'
 import Handlers from './init/handlers'
 import Middlewares from './init/middlewares'
 import Scenes from './init/scenes'
-import Server from './api/server'
 
 const bot = Bot.configure() // конфигурируем бот
 
