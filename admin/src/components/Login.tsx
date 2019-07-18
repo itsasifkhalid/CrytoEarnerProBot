@@ -30,25 +30,30 @@ export default class Login extends Component<{}, LoginState> {
         `http://${config.prod.api.host}:${config.prod.api.port}/` :
         `http://${config.dev.api.host}:${config.dev.api.port}/`
       
-      let res = await fetch(url + 'auth/sign_in', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: this.state.username,
-          password: this.state.password
+      try {
+        let res = await fetch(url + 'auth/sign_in', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.state.username,
+            password: this.state.password
+          })
         })
-      })
-      
-      switch (res.status) {
-        case 200:
-          window.location.reload()
-          break
-        case 401:
-          message.error('Неверный логин и/или пароль', 2)
-          break
+  
+        switch (res.status) {
+          case 200:
+            window.location.reload()
+            break
+          case 401:
+            message.error('Неверный логин и/или пароль', 2)
+            break
+        }
+      }
+      catch {
+        message.error('Ошибка при запросе к серверу')
       }
     }
     else {

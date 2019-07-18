@@ -31,70 +31,75 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
       `http://${config.prod.api.host}:${config.prod.api.port}/` :
       `http://${config.dev.api.host}:${config.dev.api.port}/`
     
-    let res = await fetch(url + 'investors/all', {
-      credentials: 'include'
-    })
-    
-    let investors = await res.json()
-    
-    investors.forEach((investor: any) => {
-      investor.investments.forEach((investment: any) => {
-        //console.log(JSON.parse(investment))
-        const obj: any = Object.assign(investment, {
-          id: investment.id,
-          key: investment._id,
-          username: investor.username,
-          name: investor.fullName,
-          userStatus: investor.status,
-          balance: investor.balance,
-          investDate: new Date(investment.date).toLocaleDateString(),
-          payoutDate: new Date(investment.expires).toLocaleDateString(),
-          investAmount: investment.sum,
-          status: investment.status,
-          note: investment.note
-        })
-        
-        switch (investment.status) {
-          case 0:
-            obj.status = 'Активная'
-            break
-          case 1:
-            obj.status = 'Закрытая'
-            break
-          case 2:
-            obj.status = 'Отменённая'
-            break
-        }
-        
-        switch (investor.status) {
-          case 'ACTIVE':
-            obj.userStatus = 'Активный'
-            break
-          case 'BLOCKED':
-            obj.userStatus = 'Заблокированный'
-            break
-        }
-        
-        this.setState({
-          investments: [...this.state.investments, obj]
+    try {
+      let res = await fetch(url + 'investors/all', {
+        credentials: 'include'
+      })
+      
+      let investors = await res.json()
+      
+      investors.forEach((investor: any) => {
+        investor.investments.forEach((investment: any) => {
+          console.log(investment)
+          const obj: any = Object.assign(investment, {
+            id: investment.id,
+            key: investment._id,
+            username: investor.username,
+            name: investor.fullName,
+            userStatus: investor.status,
+            balance: investor.balance,
+            investDate: new Date(investment.date).toLocaleDateString(),
+            payoutDate: new Date(investment.expires).toLocaleDateString(),
+            investAmount: investment.investAmount,
+            status: investment.status,
+            note: investment.note
+          })
+          
+          switch (investment.status) {
+            case 0:
+              obj.status = 'Активная'
+              break
+            case 1:
+              obj.status = 'Закрытая'
+              break
+            case 2:
+              obj.status = 'Отменённая'
+              break
+          }
+          
+          switch (investor.status) {
+            case 'ACTIVE':
+              obj.userStatus = 'Активный'
+              break
+            case 'BLOCKED':
+              obj.userStatus = 'Заблокированный'
+              break
+          }
+          
+          this.setState({
+            investments: [...this.state.investments, obj]
+          })
         })
       })
-    })
-    
-    let sortedInvestments = this.state.investments
-    
-    sortedInvestments.reverse()
-    
-    this.setState({
-      loading: false,
-      investments: sortedInvestments
-    })
-    
-    if (update) {
-      if (res.status === 200)
-        message.success('Данные обновлены!', 1)
-      else
-        message.error('Произошла ошибка при обновлении', 1)
+      
+      let sortedInvestments = this.state.investments
+      
+      sortedInvestments.reverse()
+      
+      this.setState({
+        loading: false,
+        investments: sortedInvestments
+      })
+      
+      if (update) {
+        if (res.status === 200)
+          message.success('Данные обновлены!', 1)
+        else
+          message.error('Произошла ошибка при обновлении', 1)
+      }
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
     }
   }
   
@@ -105,17 +110,22 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
     
     let status = 'BLOCKED'
     
-    await fetch(url + 'investors/set_investor_status', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        status: status
+    try {
+      await fetch(url + 'investors/set_investor_status', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          status: status
+        })
       })
-    })
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
+    }
     
     await this.updateHandler()
   }
@@ -129,18 +139,23 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
     let id = record.id
     let status = 'CANCELED'
     
-    await fetch(url + 'investments/set_investment_status', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        id: id,
-        status: status
+    try {
+      await fetch(url + 'investments/set_investment_status', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          id: id,
+          status: status
+        })
       })
-    })
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
+    }
     
     await this.updateHandler()
   }
@@ -154,18 +169,23 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
     let username = record.username
     let note = e.target.value
     
-    await fetch(url + 'investments/set_investment_note', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: id,
-        username: username,
-        note: note
+    try {
+      await fetch(url + 'investments/set_investment_note', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: id,
+          username: username,
+          note: note
+        })
       })
-    })
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
+    }
   }
   
   async updateHandler() {
@@ -256,8 +276,7 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
                     placeholder="Введите заметку"
                     defaultValue={note}
                     allowClear
-                    onBlur={e => this.saveNote(record, e)}
-                    onPressEnter={e => this.saveNote(record, e)}
+                    onChange={e => this.saveNote(record, e)}
                   />
                 </div>
               )
@@ -273,43 +292,43 @@ export default class InvestmentsTable extends Component<{}, InvestmentsTableStat
               
               return (
                 <span>
-                                    <Popconfirm
-                                      title="Вы уверены, что хотите забанить этого инвестора?"
-                                      okText="Да"
-                                      cancelText="Отменить"
-                                      onConfirm={e => this.banUser(record.username)}
-                                      placement="topRight"
-                                    >
-                                            <Button
-                                              type="link"
-                                              style={{
-                                                display: banDisplay,
-                                                color: '#FF5E49',
-                                                fontSize: 13,
-                                                padding: 0
-                                              }}
-                                            >
-                                                Забанить
-                                            </Button>
-                                    </Popconfirm>
+                  <Popconfirm
+                    title="Вы уверены, что хотите забанить этого инвестора?"
+                    okText="Да"
+                    cancelText="Отменить"
+                    onConfirm={e => this.banUser(record.username)}
+                    placement="topRight"
+                  >
+                    <Button
+                      type="link"
+                      style={{
+                        display: banDisplay,
+                        color: '#FF5E49',
+                        fontSize: 13,
+                        padding: 0
+                      }}
+                    >
+                      Забанить
+                    </Button>
+                  </Popconfirm>
 
-                                    <Divider type="horizontal" style={{ margin: 0, display: dividerDisplay }}/>
+                  <Divider type="horizontal" style={{ margin: 0, display: dividerDisplay }}/>
 
-                                    <Popconfirm
-                                      title="Вы уверены, что хотите отменить эту инвестицию?"
-                                      okText="Да"
-                                      cancelText="Нет"
-                                      onConfirm={e => this.cancelInvestment(record)}
-                                      placement="topRight"
-                                    >
-                                            <Button
-                                              type="link"
-                                              style={{ display: cancelDisplay, fontSize: 13, padding: 0 }}
-                                            >
-                                                Отменить
-                                            </Button>
-                                    </Popconfirm>
-                                </span>
+                  <Popconfirm
+                    title="Вы уверены, что хотите отменить эту инвестицию?"
+                    okText="Да"
+                    cancelText="Нет"
+                    onConfirm={e => this.cancelInvestment(record)}
+                    placement="topRight"
+                  >
+                    <Button
+                      type="link"
+                      style={{ display: cancelDisplay, fontSize: 13, padding: 0 }}
+                    >
+                      Отменить
+                    </Button>
+                  </Popconfirm>
+                </span>
               )
             }}
           />

@@ -31,23 +31,28 @@ export default class Stats extends Component<{}, StatsState> {
       `http://${config.prod.api.host}:${config.prod.api.port}/` :
       `http://${config.dev.api.host}:${config.dev.api.port}/`
     
-    let res = await fetch(url + 'stats/all', {
-      credentials: 'include'
-    })
-    let json = await res.json()
-    
-    this.setState({
-      loading: false,
-      balance: json.balance,
-      investorsAmount: json.amount,
-      investorsToday: json.amountToday
-    })
-    
-    if (update) {
-      if (res.status === 200)
-        message.success('Данные обновлены!', 1)
-      else
-        message.error('Произошла ошибка при обновлении', 1)
+    try {
+      let res = await fetch(url + 'stats/all', {
+        credentials: 'include'
+      })
+      let json = await res.json()
+      
+      this.setState({
+        loading: false,
+        balance: json.balance,
+        investorsAmount: json.amount,
+        investorsToday: json.amountToday
+      })
+      
+      if (update) {
+        if (res.status === 200)
+          message.success('Данные обновлены!', 1)
+        else
+          message.error('Произошла ошибка при обновлении', 1)
+      }
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
     }
   }
   

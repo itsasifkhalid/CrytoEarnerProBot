@@ -54,26 +54,31 @@ export default class Settings extends Component<{}, SettingsState> {
       `http://${config.prod.api.host}:${config.prod.api.port}/` :
       `http://${config.dev.api.host}:${config.dev.api.port}/`
     
-    let res = await fetch(url + 'auth/change_password', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: 'admin',
-        oldPassword: oldPass,
-        newPassword: newPass
+    try {
+      let res = await fetch(url + 'auth/change_password', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: 'admin',
+          oldPassword: oldPass,
+          newPassword: newPass
+        })
       })
-    })
-    
-    switch (res.status) {
-      case 200:
-        message.success('Пароль успешно изменён', 2)
-        break
-      case 452:
-        message.error('Неверный старый пароль!', 2)
-        break
+      
+      switch (res.status) {
+        case 200:
+          message.success('Пароль успешно изменён', 2)
+          break
+        case 452:
+          message.error('Неверный старый пароль!', 2)
+          break
+      }
+    }
+    catch {
+      message.error('Ошибка при запросе к серверу')
     }
   }
   
