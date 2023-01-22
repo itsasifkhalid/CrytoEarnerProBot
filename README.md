@@ -1,2 +1,2 @@
 # telegram-investment-bot
-Telegram bot for investing.
+Telegram Crypto Earner Pro Bot.
